@@ -5,6 +5,12 @@ import { Injectable } from '@angular/core';
 })
 export class ModalService {
   showModal = false;
+  date = '';
 
   constructor() {}
+
+  openModal(date: string) {
+    this.showModal = true;
+    this.date = date;
+  }
 }
