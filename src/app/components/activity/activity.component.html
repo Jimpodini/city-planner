@@ -1,1 +1,8 @@
-<div class="container"></div>
+<div class="container">
+  <img
+    *ngIf="activity"
+    [src]="'/assets/activities-images/' + activity.img"
+    alt="image"
+    class="max-w-none"
+  />
+</div>

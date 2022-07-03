@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { ModalService } from '../modal/modal.service';
 
 @Component({
@@ -7,8 +7,12 @@ import { ModalService } from '../modal/modal.service';
   styleUrls: ['./activity.component.scss'],
 })
 export class ActivityComponent implements OnInit {
+  @Input() date: string = '';
+  @Input() activity: any;
   @HostListener('click') onClick() {
-    this.modalService.showModal = true;
+    if (!this.activity) {
+      this.modalService.openModal(this.date);
+    }
   }
 
   constructor(private modalService: ModalService) {}
