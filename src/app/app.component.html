@@ -1,12 +1,12 @@
-<h1
-  *ngFor="
-    let date of authService.getDatesInRange(
-      authService.authObject.checkInDate,
-      authService.authObject.checkOutDate
-    )
-  "
->
-  {{ date }}
-  <app-activity></app-activity>
-</h1>
+<ng-container *ngFor="let date of authService.checkedInDates">
+  <h1>
+    {{ date }}
+  </h1>
+  <div class="flex activities-container">
+    <div *ngFor="let activity of authService.activitiesPerDate[date]">
+      <app-activity [activity]="activity"></app-activity>
+    </div>
+    <app-activity [date]="date"></app-activity>
+  </div>
+</ng-container>
 <app-modal></app-modal>

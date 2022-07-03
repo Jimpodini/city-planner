@@ -9,10 +9,17 @@ export class AuthService {
     checkOutDate: '2022-06-05',
     doorCode: 1234,
   };
+  activitiesPerDate: { [key: string]: any[] } = {};
+  checkedInDates: string[] = [];
 
-  constructor() {}
+  constructor() {
+    this.checkedInDates = this.getDatesInRange(
+      this.authObject.checkInDate,
+      this.authObject.checkOutDate
+    );
+  }
 
-  getDatesInRange(startDate: string, endDate: string) {
+  private getDatesInRange(startDate: string, endDate: string): string[] {
     const d1 = new Date(startDate);
     const d2 = new Date(endDate);
 
@@ -21,7 +28,9 @@ export class AuthService {
     const dates = [];
 
     while (date <= d2) {
-      dates.push(new Date(date).toISOString().split('T')[0]);
+      const dateIso = new Date(date).toISOString().split('T')[0];
+      dates.push(dateIso);
+      this.activitiesPerDate[dateIso] = [];
       date.setDate(date.getDate() + 1);
     }
 
