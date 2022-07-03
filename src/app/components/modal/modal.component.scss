@@ -8,7 +8,6 @@
 }
 
 .modal {
-  padding: 10px;
   border: 1px solid black;
   border-radius: 5px;
   position: fixed;
@@ -19,4 +18,147 @@
   transform: translate(-50%, -50%);
   width: 500px;
   max-width: 80%;
+  max-height: 90%;
+  background-color: rgb(28, 28, 30, 1);
+  color: white;
+}
+
+.search-header {
+  display: flex;
+  align-items: center;
+  --tw-bg-opacity: 1;
+  background-color: rgb(40 40 43 / var(--tw-bg-opacity));
+  padding: 16px 24px;
+  height: 65px;
+}
+
+.search-icon {
+  margin-right: 16px;
+  margin-left: 8px;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+  font-size: 20px;
+}
+
+.search-input {
+  appearance: none;
+  flex: 1;
+  border: 0;
+  border-radius: 0;
+  background: 0;
+  padding: 0;
+  height: 65px;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+  font-size: 18px;
+  font-weight: 300;
+  overflow: hidden;
+}
+
+input:focus:not(:focus-visible) {
+  outline: 0 !important;
+}
+
+:focus-visible {
+  outline: none;
+}
+
+.category-quick-filter-container {
+  padding: 16px 24px;
+}
+
+.category-quick-filter {
+  border-radius: 3px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(40 40 43 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(178 179 185 / var(--tw-text-opacity));
+  padding: 2px 8px;
+  font-size: 14px;
+  border-width: 0px;
+}
+
+.category-quick-filter:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(87 89 95 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.category-quick-filter:not(:first-child) {
+  margin-left: 8px;
+}
+
+.chosen-category {
+  border-radius: 3px;
+  background-color: rgb(255, 255, 255, 0.1);
+  color: rgb(178 179 185 / 1);
+  padding: 2px 8px;
+  font-size: 14px;
+  border-width: 0px;
+  margin-right: 7px;
+
+  span {
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 1px;
+    display: inline-block;
+
+    &:hover {
+      background-color: rgb(87 89 95 / 1);
+      color: white;
+    }
+  }
+}
+
+.search-result-container {
+  max-height: 65vh;
+  overflow: auto;
+}
+
+button {
+  margin: 0;
+  outline: 0;
+  border-radius: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.activity-image {
+  width: 50%;
+  padding: 1rem;
+  border-radius: 2rem;
+}
+
+.activity {
+  margin-bottom: 1rem;
+}
+
+.activity:last-child {
+  margin-bottom: 0;
+}
+
+.activity:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #8f8f8f #ffffff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 9px;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(28, 28, 30);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #8f8f8f;
+  border-radius: 10px;
 }
