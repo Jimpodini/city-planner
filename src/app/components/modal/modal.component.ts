@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { pipe, Subject, takeUntil } from 'rxjs';
 import { ACTIVITIES } from 'src/app/activities';
 import { AuthService } from 'src/app/auth.service';
 import { ModalService } from './modal.service';
@@ -18,12 +19,18 @@ export class ModalComponent implements OnInit {
   activatedCategoryFilter: string = '';
   searchInput = new FormControl('');
 
+  unsubscribe = new Subject<void>();
+
   constructor(
     public modalService: ModalService,
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.searchInput.valueChanges
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(() => this.updateFilteredActivities());
+  }
 
   addActivity(activity: any) {
     this.authService.activitiesPerDate[this.modalService.date].push(activity);
@@ -37,8 +44,15 @@ export class ModalComponent implements OnInit {
   updateFilteredActivities(): void {
     this.filteredActivities = this.activities.filter(
       (activity) =>
-        activity.category === this.activatedCategoryFilter ||
-        !this.activatedCategoryFilter
+        (activity.category === this.activatedCategoryFilter ||
+          !this.activatedCategoryFilter) &&
+        (!this.searchInput.value ||
+          activity.name.includes(this.searchInput.value))
     );
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }
