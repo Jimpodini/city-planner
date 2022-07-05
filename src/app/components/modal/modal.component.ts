@@ -33,7 +33,14 @@ export class ModalComponent implements OnInit {
   }
 
   addActivity(activity: any) {
-    this.authService.activitiesPerDate[this.modalService.date].push(activity);
+    this.authService.activitiesPerDate[this.modalService.date].activities.push(
+      activity
+    );
+    this.authService.activitiesPerDate[
+      this.modalService.date
+    ].googleDirectionLink = this.authService.getGoogleUrl(
+      this.modalService.date
+    );
   }
 
   activateCategoryFilter(category: string): void {
