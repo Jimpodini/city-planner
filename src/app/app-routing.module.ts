@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FeatureAreaComponent } from './core/feature-area/feature-area.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    component: FeatureAreaComponent,
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

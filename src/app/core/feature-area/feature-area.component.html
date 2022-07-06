@@ -1,0 +1,19 @@
+<ng-container *ngFor="let date of authService.checkedInDates">
+  <h1>
+    {{ date }}
+    <a
+      [href]="authService.activitiesPerDate[date].googleDirectionLink"
+      target="_blank"
+      ><i class="fa-solid fa-map-location-dot"></i
+    ></a>
+  </h1>
+  <div class="flex activities-container">
+    <div
+      *ngFor="let activity of authService.activitiesPerDate[date].activities"
+    >
+      <app-activity [activity]="activity"></app-activity>
+    </div>
+    <app-activity [date]="date"></app-activity>
+  </div>
+</ng-container>
+<app-modal></app-modal>

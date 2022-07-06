@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { AuthService } from './auth.service';
+import { Component, OnInit } from '@angular/core';
+
 import {
   Firestore,
   collectionData,
@@ -8,13 +8,14 @@ import {
   doc,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: 'app-feature-area',
+  templateUrl: './feature-area.component.html',
+  styleUrls: ['./feature-area.component.scss'],
 })
-export class AppComponent {
+export class FeatureAreaComponent implements OnInit {
   // item$: Observable<any[]>;
 
   constructor(public authService: AuthService, firestore: Firestore) {
