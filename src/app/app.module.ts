@@ -10,9 +10,10 @@ import { ModalComponent } from './components/modal/modal.component';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { FeatureAreaComponent } from './core/feature-area/feature-area.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, ActivityComponent, ModalComponent, FeatureAreaComponent],
+  declarations: [AppComponent, ActivityComponent, ModalComponent, FeatureAreaComponent, PageNotFoundComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
