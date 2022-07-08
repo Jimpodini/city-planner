@@ -4,10 +4,13 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
+  // TODO change service name
   authObject = {
     checkInDate: '2022-06-01',
     checkOutDate: '2022-06-05',
     doorCode: 1234,
+    homeAddress: 'Medevigatan 14',
+    homeCity: 'Stockholm',
   };
   activitiesPerDate: {
     [key: string]: { activities: any[]; googleDirectionLink: string };
@@ -22,6 +25,7 @@ export class AuthService {
   }
 
   // TODO write tests and refactor
+  // TODO fix so that homeAddress and homeCity can contain more than one space
   getGoogleUrl(date: string): string {
     let baseString = 'https://www.google.com/maps/dir/?api=1';
     let waypointsString = Array.from(
@@ -36,7 +40,10 @@ export class AuthService {
 
     let waypointPlaceIdsString = waypointPlaceIds.join('%7C');
 
-    let fullUrl = `${baseString}&waypoints=${waypointsString}&waypoint_place_ids=${waypointPlaceIdsString}&destination=medevigatan+14+stockholm`;
+    let fullUrl = `${baseString}&waypoints=${waypointsString}&waypoint_place_ids=${waypointPlaceIdsString}&destination=${this.authObject.homeAddress.replace(
+      ' ',
+      '+'
+    )}+${this.authObject.homeCity.replace(' ', '+')}`;
     return fullUrl;
   }
 
