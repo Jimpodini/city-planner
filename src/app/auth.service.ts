@@ -5,19 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
   // TODO change service name
-  authObject = {
-    checkInDate: '2022-06-01',
-    checkOutDate: '2022-06-05',
-    doorCode: 1234,
-    homeAddress: 'Medevigatan 14',
-    homeCity: 'Stockholm',
-  };
-  activitiesPerDate: {
-    [key: string]: { activities: any[]; googleDirectionLink: string };
-  } = {};
+  authObject!: AuthObject;
   checkedInDates: string[] = [];
 
-  constructor() {
+  constructor() {}
+
+  setAuthObject(authObject: AuthObject) {
+    this.authObject = authObject;
     this.checkedInDates = this.getDatesInRange(
       this.authObject.checkInDate,
       this.authObject.checkOutDate
@@ -29,12 +23,12 @@ export class AuthService {
   getGoogleUrl(date: string): string {
     let baseString = 'https://www.google.com/maps/dir/?api=1';
     let waypointsString = Array.from(
-      Array(this.activitiesPerDate[date].activities.length).keys()
+      Array(this.authObject.activitiesPerDate[date].activities.length).keys()
     ).join('%7C');
     console.log(waypointsString);
 
     let waypointPlaceIds: any[] = [];
-    this.activitiesPerDate[date].activities.forEach((activity) => {
+    this.authObject.activitiesPerDate[date].activities.forEach((activity) => {
       waypointPlaceIds.push(activity.googlePlaceId);
     });
 
@@ -58,13 +52,20 @@ export class AuthService {
     while (date <= d2) {
       const dateIso = new Date(date).toISOString().split('T')[0];
       dates.push(dateIso);
-      this.activitiesPerDate[dateIso] = {
-        activities: [],
-        googleDirectionLink: '',
-      };
       date.setDate(date.getDate() + 1);
     }
 
     return dates;
   }
 }
+
+export type AuthObject = {
+  checkInDate: string;
+  checkOutDate: string;
+  doorCode: string;
+  homeAddress: string;
+  homeCity: string;
+  activitiesPerDate: {
+    [key: string]: { activities: any[]; googleDirectionLink: string };
+  };
+};
