@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Firestore, setDoc, doc, collection } from '@angular/fire/firestore';
 import { FormControl } from '@angular/forms';
-import { pipe, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { ACTIVITIES } from 'src/app/activities';
 import { AuthService } from 'src/app/auth.service';
 import { ModalService } from './modal.service';
@@ -23,7 +24,8 @@ export class ModalComponent implements OnInit {
 
   constructor(
     public modalService: ModalService,
-    private authService: AuthService
+    private authService: AuthService,
+    private firestore: Firestore
   ) {}
 
   ngOnInit(): void {
@@ -33,14 +35,18 @@ export class ModalComponent implements OnInit {
   }
 
   addActivity(activity: any) {
-    this.authService.activitiesPerDate[this.modalService.date].activities.push(
-      activity
-    );
-    this.authService.activitiesPerDate[
+    this.authService.authObject.activitiesPerDate[
+      this.modalService.date
+    ].activities.push(activity);
+    this.authService.authObject.activitiesPerDate[
       this.modalService.date
     ].googleDirectionLink = this.authService.getGoogleUrl(
       this.modalService.date
     );
+
+    // TODO refactor db logic
+    const db = collection(this.firestore, 'stays');
+    setDoc(doc(db, 'Hhgph1QjkxcwCIWNJiAu'), this.authService.authObject);
   }
 
   activateCategoryFilter(category: string): void {

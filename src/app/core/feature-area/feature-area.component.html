@@ -2,16 +2,21 @@
   <h1>
     {{ date }}
     <a
-      [href]="authService.activitiesPerDate[date].googleDirectionLink"
+      [href]="
+        authService.authObject.activitiesPerDate[date].googleDirectionLink
+      "
       target="_blank"
       ><i class="fa-solid fa-map-location-dot"></i
     ></a>
   </h1>
   <div class="flex activities-container">
     <div
-      *ngFor="let activity of authService.activitiesPerDate[date].activities"
+      *ngFor="
+        let activity of authService.authObject.activitiesPerDate[date]
+          .activities
+      "
     >
-      <app-activity [activity]="activity"></app-activity>
+      <app-activity [activity]="activity" [date]="date"></app-activity>
     </div>
     <app-activity [date]="date"></app-activity>
   </div>
