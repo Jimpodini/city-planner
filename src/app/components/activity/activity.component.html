@@ -1,8 +1,12 @@
 <div class="container">
-  <img
-    *ngIf="activity"
-    [src]="'/assets/activities-images/' + activity.img"
-    alt="image"
-    class="max-w-none"
-  />
+  <ng-container *ngIf="activity">
+    <img
+      [src]="'/assets/activities-images/' + activity.img"
+      alt="image"
+      class="max-w-none"
+    />
+    <button class="delete-acitivity-button" (click)="deleteActivity()">
+      X
+    </button>
+  </ng-container>
 </div>
