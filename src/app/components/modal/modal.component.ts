@@ -46,7 +46,7 @@ export class ModalComponent implements OnInit {
 
     // TODO refactor db logic
     const db = collection(this.firestore, 'stays');
-    setDoc(doc(db, 'Hhgph1QjkxcwCIWNJiAu'), this.authService.authObject);
+    setDoc(doc(db, this.authService.stayId), this.authService.authObject);
   }
 
   activateCategoryFilter(category: string): void {

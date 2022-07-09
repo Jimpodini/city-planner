@@ -21,12 +21,11 @@ export class FeatureAreaComponent implements OnInit {
 
   getStay(): void {
     // TODO: implement loader
-    const stayId = this.route.snapshot.params['stayId'];
-    console.log(stayId);
+    this.authService.stayId = this.route.snapshot.params['stayId'];
 
     // TODO refactor db logic
     const db = collection(this.firestore, 'stays');
-    const docRef = doc(db, stayId);
+    const docRef = doc(db, this.authService.stayId);
     const docSnap = getDoc(docRef);
     docSnap.then((doc) => {
       console.log(doc.data());

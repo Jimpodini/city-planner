@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
   // TODO change service name
+  stayId!: string;
   authObject!: AuthObject;
   checkedInDates: string[] = [];
 
