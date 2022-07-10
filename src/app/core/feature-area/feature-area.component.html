@@ -9,7 +9,7 @@
       ><i class="fa-solid fa-map-location-dot"></i
     ></a>
   </h1>
-  <div class="flex activities-container">
+  <div class="flex activities-container overflow-auto">
     <div
       *ngFor="
         let activity of authService.authObject.activitiesPerDate[date]
@@ -18,7 +18,9 @@
     >
       <app-activity [activity]="activity" [date]="date"></app-activity>
     </div>
-    <app-activity [date]="date"></app-activity>
+    <div>
+      <app-activity [date]="date"></app-activity>
+    </div>
   </div>
 </ng-container>
 <app-modal></app-modal>
