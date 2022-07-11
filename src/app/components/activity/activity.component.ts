@@ -32,6 +32,9 @@ export class ActivityComponent implements OnInit {
       ].activities.filter(
         (activity) => activity.googlePlaceId !== this.activity.googlePlaceId
       );
+    this.authService.authObject.activitiesPerDate[
+      this.date
+    ].googleDirectionLink = this.authService.getGoogleUrl(this.date);
 
     // TODO refactor db logic
     const db = collection(this.firestore, 'stays');
