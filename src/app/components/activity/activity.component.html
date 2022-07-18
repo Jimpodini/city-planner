@@ -1,12 +1,50 @@
-<div>
-  <ng-container *ngIf="activity">
-    <img
-      [src]="'/assets/activities-images/' + activity.img"
-      alt="image"
-      class="max-w-none"
-    />
-    <button class="delete-acitivity-button" (click)="deleteActivity()">
-      X
-    </button>
+<div class="h-full">
+  <ng-container *ngIf="activity; else addActivity">
+    <div
+      class="image-container"
+      [ngClass]="{
+        'category-park': activity.category === 'Parks',
+        'category-bar': activity.category === 'Bars',
+        'category-restaurant': activity.category === 'Restaurants'
+      }"
+    >
+      <img
+        [src]="'/assets/activities-images/' + activity.imgLong"
+        alt="image"
+        class="max-w-none grayscale"
+      />
+      <div class="delete-container">
+        <!-- TODO refactor to one method deleteActivity -->
+        <div
+          (click)="deleteActivity()"
+          class="delete-icon absolute top-0 right-0 w-[5rem] h-[5rem] bg-red-500 shadow-lg shadow-red-500/50 z-10 ease-in-out duration-500"
+        ></div>
+
+        <i
+          (click)="deleteActivity()"
+          class="fa-solid fa-trash-can absolute top-0 right-0 z-10 p-2 ease-in-out duration-500 text-white"
+        ></i>
+      </div>
+    </div>
+    <div class="absolute bottom-0 z-10 p-2 w-full">
+      <button
+        class="shadow-lg z-10 rounded-sm p-2 w-full text-white"
+        [ngClass]="{
+          'bg-emerald-600 shadow-emerald-600/50': activity.category === 'Parks',
+          'bg-orange-600 shadow-orange-600/50':
+            activity.category === 'Restaurants',
+          'bg-fuchsia-500 shadow-fuchsia-500/50': activity.category === 'Bars'
+        }"
+      >
+        {{ activity.name }}
+      </button>
+    </div>
   </ng-container>
 </div>
+<ng-template #addActivity
+  ><div class="add-activity h-full flex items-center justify-center">
+    <span
+      class="rounded-full bg-gray-100 w-16 h-16 flex items-center justify-center hover:w-[1000px] hover:h-[1000px] ease-in-out duration-500"
+      ><i class="fa-solid fa-plus text-lg"></i
+    ></span></div
+></ng-template>
