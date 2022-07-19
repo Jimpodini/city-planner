@@ -8,6 +8,17 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
+h1 {
+  font-family: "Catamaran", sans-serif !important;
+  font-size: 62px !important;
+  line-height: 53px !important;
+}
+
+h2,
+h3 {
+  font-family: "Viga", sans-serif !important;
+}
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
@@ -46,5 +57,5 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: rgba(0, 0, 0, 0.01);
+  background-color: rgba(0, 0, 0, 0.02);
 }
