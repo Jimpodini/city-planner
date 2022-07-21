@@ -1,31 +1,37 @@
-<h1>Welcome to Stockholm NAME</h1>
-<p>
-  This is a tool for planning your activities during your stay. The list of
-  activities to choose from is a curated list by your host.
-</p>
-<ng-container *ngFor="let date of authService.checkedInDates">
-  <h1>
-    {{ date }}
-    <a
-      [href]="
-        authService.authObject.activitiesPerDate[date].googleDirectionLink
-      "
-      target="_blank"
-      ><i class="fa-solid fa-map-location-dot"></i
-    ></a>
-  </h1>
-  <div class="flex activities-container overflow-auto">
-    <div
-      *ngFor="
-        let activity of authService.authObject.activitiesPerDate[date]
-          .activities
-      "
-    >
-      <app-activity [activity]="activity" [date]="date"></app-activity>
-    </div>
-    <div>
-      <app-activity [date]="date"></app-activity>
+<div class="p-4">
+  <h1>Welcome to Stockholm NAME</h1>
+  <h2 class="max-w-md">
+    This is a tool for planning your activities during your stay. The list of
+    activities to choose from is a curated list by your host.
+  </h2>
+  <div *ngFor="let date of authService.checkedInDates" class="mb-4">
+    <h3>
+      {{ date }}
+      <a
+        [href]="
+          authService.authObject.activitiesPerDate[date].googleDirectionLink
+        "
+        target="_blank"
+        ><i class="fa-solid fa-map-location-dot"></i
+      ></a>
+    </h3>
+    <div class="flex activities-container overflow-auto p-2">
+      <div
+        *ngFor="
+          let activity of authService.authObject.activitiesPerDate[date]
+            .activities
+        "
+      >
+        <app-activity
+          [activity]="activity"
+          [date]="date"
+          class="shadow-md"
+        ></app-activity>
+      </div>
+      <div>
+        <app-activity [date]="date" class="shadow-md"></app-activity>
+      </div>
     </div>
   </div>
-</ng-container>
+</div>
 <app-modal></app-modal>
