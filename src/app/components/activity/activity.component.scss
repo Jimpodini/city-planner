@@ -67,6 +67,16 @@ i.fa-trash-can {
   }
 }
 
+@media (pointer: coarse), (pointer: none) {
+  .delete-icon {
+    transform: rotate(45deg) translateY(-70%);
+  }
+
+  i.fa-trash-can {
+    transform: translate(0, 0);
+  }
+}
+
 .add-activity:hover {
   cursor: pointer;
 }
