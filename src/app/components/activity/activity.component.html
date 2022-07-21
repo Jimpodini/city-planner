@@ -35,11 +35,33 @@
             activity.category === 'Restaurants',
           'bg-fuchsia-500 shadow-fuchsia-500/50': activity.category === 'Bars'
         }"
+        (click)="showDescription = true"
       >
         {{ activity.name }}
       </button>
     </div>
   </ng-container>
+  <div
+    *ngIf="showDescription"
+    class="top-0 left-0 absolute w-full h-full bg-black/70 z-50 flex justify-center items-center text-white"
+  >
+    {{ activity.description }}
+    <div class="absolute bottom-0 z-10 p-2 w-full">
+      <!-- TODO - refactor to seperate component  -->
+      <button
+        class="shadow-lg z-10 rounded-sm p-2 w-full text-white"
+        [ngClass]="{
+          'bg-emerald-600 shadow-emerald-600/50': activity.category === 'Parks',
+          'bg-orange-600 shadow-orange-600/50':
+            activity.category === 'Restaurants',
+          'bg-fuchsia-500 shadow-fuchsia-500/50': activity.category === 'Bars'
+        }"
+        (click)="showDescription = false"
+      >
+        <i class="fa-solid fa-circle-xmark"></i>
+      </button>
+    </div>
+  </div>
 </div>
 <ng-template #addActivity
   ><div class="add-activity h-full flex items-center justify-center">

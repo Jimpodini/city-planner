@@ -16,6 +16,7 @@ export class ActivityComponent implements OnInit {
       this.modalService.openModal(this.date);
     }
   }
+  showDescription = false;
 
   constructor(
     private modalService: ModalService,
