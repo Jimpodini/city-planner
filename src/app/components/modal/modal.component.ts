@@ -29,6 +29,7 @@ export class ModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.updateFilteredActivities();
     this.searchInput.valueChanges
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(() => this.updateFilteredActivities());
@@ -54,13 +55,19 @@ export class ModalComponent implements OnInit {
     this.updateFilteredActivities();
   }
 
+  // TODO refactor to make logic more clear
   updateFilteredActivities(): void {
     this.filteredActivities = this.activities.filter(
       (activity) =>
         (activity.category === this.activatedCategoryFilter ||
           !this.activatedCategoryFilter) &&
         (!this.searchInput.value ||
-          activity.name.includes(this.searchInput.value))
+          activity.name.includes(this.searchInput.value)) &&
+        this.authService.authObject.activitiesPerDate[
+          this.modalService.date
+        ].activities
+          .map((a) => a.googlePlaceId)
+          .includes(activity.googlePlaceId) === false
     );
   }
 

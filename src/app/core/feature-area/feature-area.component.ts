@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Firestore, collection, doc, getDoc } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthObject, AuthService } from 'src/app/auth.service';
+import { ModalService } from 'src/app/components/modal/modal.service';
 
 @Component({
   selector: 'app-feature-area',
@@ -12,6 +13,7 @@ import { AuthObject, AuthService } from 'src/app/auth.service';
 export class FeatureAreaComponent implements OnInit {
   constructor(
     public authService: AuthService,
+    public modalService: ModalService,
     private firestore: Firestore,
     private route: ActivatedRoute,
     private router: Router

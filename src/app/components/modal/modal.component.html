@@ -1,49 +1,44 @@
-<ng-container *ngIf="modalService.showModal">
-  <div class="modal">
-    <div class="search-header">
-      <i class="fa-solid fa-magnifying-glass search-icon"></i>
-      <div *ngIf="activatedCategoryFilter" class="chosen-category">
-        {{ activatedCategoryFilter }}
-        <span (click)="activateCategoryFilter('')"> &#10006; </span>
-      </div>
-      <input
-        [formControl]="searchInput"
-        autocomplete="off"
-        placeholder="Search.."
-        autofocus=""
-        class="search-input"
-        type="text"
-      />
+<div class="modal">
+  <div class="search-header">
+    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+    <div *ngIf="activatedCategoryFilter" class="chosen-category">
+      {{ activatedCategoryFilter }}
+      <span (click)="activateCategoryFilter('')"> &#10006; </span>
     </div>
-    <div
-      *ngIf="!activatedCategoryFilter"
-      class="category-quick-filter-container"
+    <input
+      [formControl]="searchInput"
+      autocomplete="off"
+      placeholder="Search.."
+      autofocus=""
+      class="search-input"
+      type="text"
+    />
+  </div>
+  <div *ngIf="!activatedCategoryFilter" class="category-quick-filter-container">
+    <button
+      *ngFor="let category of categories"
+      class="category-quick-filter"
+      type="button"
+      (click)="activateCategoryFilter(category)"
     >
-      <button
-        *ngFor="let category of categories"
-        class="category-quick-filter"
-        type="button"
-        (click)="activateCategoryFilter(category)"
-      >
-        {{ category }}
-      </button>
-    </div>
-    <div class="search-result-container">
-      <div
-        *ngFor="let activity of filteredActivities"
-        (click)="addActivity(activity); modalService.showModal = false"
-        class="activity flex overflow-hidden"
-      >
-        <img
-          [src]="'/assets/activities-images/' + activity.img"
-          alt="image"
-          class="activity-image"
-        />
-        <div class="flex justify-center items-center w-full">
-          {{ activity.name }}
-        </div>
+      {{ category }}
+    </button>
+  </div>
+  <div class="search-result-container">
+    <div
+      *ngFor="let activity of filteredActivities"
+      (click)="addActivity(activity); modalService.showModal = false"
+      class="activity flex overflow-hidden"
+    >
+      <img
+        [src]="'/assets/activities-images/' + activity.img"
+        alt="image"
+        class="activity-image"
+      />
+      <div class="flex justify-center items-center w-full">
+        {{ activity.name }}
       </div>
     </div>
   </div>
-  <div class="overlay" (click)="modalService.showModal = false"></div>
-</ng-container>
+</div>
+<div class="overlay" (click)="modalService.showModal = false"></div>
