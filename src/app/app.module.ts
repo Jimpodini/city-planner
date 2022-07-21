@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,8 +30,11 @@ import { CategoryIconComponent } from './components/activity/category-icon/categ
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    MatMenuModule,
     provideFirebaseApp(() =>
       initializeApp({
         apiKey: 'AIzaSyDZe8Ov89o0t-_MXhlszvF_GsbAhBEK-m0',

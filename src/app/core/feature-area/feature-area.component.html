@@ -5,16 +5,24 @@
     activities to choose from is a curated list by your host.
   </h2>
   <div *ngFor="let date of authService.checkedInDates" class="mb-4">
-    <h3>
-      {{ date }}
-      <a
-        [href]="
-          authService.authObject.activitiesPerDate[date].googleDirectionLink
-        "
-        target="_blank"
-        ><i class="fa-solid fa-map-location-dot"></i
-      ></a>
-    </h3>
+    <button
+      mat-button
+      [matMenuTriggerFor]="menu"
+      aria-label="Icon-button with a menu"
+    >
+      <span class="mr-2">{{ date }}</span>
+      <i class="fa-solid fa-ellipsis-vertical"></i>
+      <mat-menu #menu="matMenu">
+        <a
+          mat-menu-item
+          [href]="
+            authService.authObject.activitiesPerDate[date].googleDirectionLink
+          "
+          target="_blank"
+          ><i class="fa-solid fa-map-location-dot"></i> Directions</a
+        >
+      </mat-menu>
+    </button>
     <div class="flex activities-container overflow-auto p-2">
       <div
         *ngFor="
