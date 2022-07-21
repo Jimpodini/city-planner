@@ -11,9 +11,19 @@ import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { FeatureAreaComponent } from './core/feature-area/feature-area.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { ActivityButtonComponent } from './components/activity/activity-button/activity-button.component';
+import { CategoryIconComponent } from './components/activity/category-icon/category-icon.component';
 
 @NgModule({
-  declarations: [AppComponent, ActivityComponent, ModalComponent, FeatureAreaComponent, PageNotFoundComponent],
+  declarations: [
+    AppComponent,
+    ActivityComponent,
+    ModalComponent,
+    FeatureAreaComponent,
+    PageNotFoundComponent,
+    ActivityButtonComponent,
+    CategoryIconComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

@@ -1,0 +1,10 @@
+<button
+  class="shadow-lg z-10 rounded-sm p-2 w-full text-white"
+  [ngClass]="{
+    'bg-emerald-600 shadow-emerald-600/50': activity.category === 'Parks',
+    'bg-orange-600 shadow-orange-600/50': activity.category === 'Restaurants',
+    'bg-fuchsia-500 shadow-fuchsia-500/50': activity.category === 'Bars'
+  }"
+>
+  <ng-content></ng-content>
+</button>

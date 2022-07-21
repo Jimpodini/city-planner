@@ -27,18 +27,16 @@
       </div>
     </div>
     <div class="absolute bottom-0 z-10 p-2 w-full">
-      <button
-        class="shadow-lg z-10 rounded-sm p-2 w-full text-white"
-        [ngClass]="{
-          'bg-emerald-600 shadow-emerald-600/50': activity.category === 'Parks',
-          'bg-orange-600 shadow-orange-600/50':
-            activity.category === 'Restaurants',
-          'bg-fuchsia-500 shadow-fuchsia-500/50': activity.category === 'Bars'
-        }"
+      <app-activity-button
         (click)="showDescription = true"
+        [activity]="activity"
       >
-        {{ activity.name }}
-      </button>
+        <app-category-icon
+          [category]="activity.category"
+          class="mr-1"
+        ></app-category-icon
+        >{{ activity.name }}
+      </app-activity-button>
     </div>
   </ng-container>
   <div
@@ -47,19 +45,11 @@
   >
     {{ activity.description }}
     <div class="absolute bottom-0 z-10 p-2 w-full">
-      <!-- TODO - refactor to seperate component  -->
-      <button
-        class="shadow-lg z-10 rounded-sm p-2 w-full text-white"
-        [ngClass]="{
-          'bg-emerald-600 shadow-emerald-600/50': activity.category === 'Parks',
-          'bg-orange-600 shadow-orange-600/50':
-            activity.category === 'Restaurants',
-          'bg-fuchsia-500 shadow-fuchsia-500/50': activity.category === 'Bars'
-        }"
+      <app-activity-button
         (click)="showDescription = false"
-      >
-        <i class="fa-solid fa-circle-xmark"></i>
-      </button>
+        [activity]="activity"
+        ><i class="fa-solid fa-circle-xmark"></i
+      ></app-activity-button>
     </div>
   </div>
 </div>
