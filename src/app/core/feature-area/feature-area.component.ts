@@ -1,7 +1,13 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 
-import { Firestore, collection, doc, getDoc } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+} from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthObject, AuthService } from 'src/app/auth.service';
 import { ModalService } from 'src/app/components/modal/modal.service';
@@ -51,5 +57,7 @@ export class FeatureAreaComponent implements OnInit {
       event.previousIndex,
       event.currentIndex
     );
+    const db = collection(this.firestore, 'stays');
+    setDoc(doc(db, this.authService.stayId), this.authService.authObject);
   }
 }
