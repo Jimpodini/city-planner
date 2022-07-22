@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 
 import { Firestore, collection, doc, getDoc } from '@angular/fire/firestore';
@@ -21,6 +22,10 @@ export class FeatureAreaComponent implements OnInit {
     this.getStay();
   }
 
+  ngOnInit() {
+    console.log(this.authService.authObject);
+  }
+
   getStay(): void {
     // TODO: implement loader
     this.authService.stayId = this.route.snapshot.params['stayId'];
@@ -39,7 +44,12 @@ export class FeatureAreaComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    console.log(this.authService.authObject);
+  drop(event: CdkDragDrop<string[]>, date: string) {
+    console.log(event);
+    moveItemInArray(
+      this.authService.authObject.activitiesPerDate[date].activities,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 }

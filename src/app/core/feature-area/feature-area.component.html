@@ -25,16 +25,26 @@
     </button>
     <div class="flex activities-container overflow-auto p-2">
       <div
-        *ngFor="
-          let activity of authService.authObject.activitiesPerDate[date]
-            .activities
-        "
+        cdkDropList
+        cdkDropListOrientation="horizontal"
+        class="drag-and-drop-container"
+        (cdkDropListDropped)="drop($event, date)"
       >
-        <app-activity
-          [activity]="activity"
-          [date]="date"
-          class="shadow-md"
-        ></app-activity>
+        <div
+          *ngFor="
+            let activity of authService.authObject.activitiesPerDate[date]
+              .activities
+          "
+        >
+          <app-activity
+            [activity]="activity"
+            [date]="date"
+            class="shadow-md"
+            cdkDrag
+            cdkDragLockAxis="x"
+            cdkDragBoundary=".drag-and-drop-container"
+          ></app-activity>
+        </div>
       </div>
       <div>
         <app-activity [date]="date" class="shadow-md"></app-activity>

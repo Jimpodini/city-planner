@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +33,7 @@ import { CategoryIconComponent } from './components/activity/category-icon/categ
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    DragDropModule,
     AppRoutingModule,
     ReactiveFormsModule,
     MatMenuModule,
