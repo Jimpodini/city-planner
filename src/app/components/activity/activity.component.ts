@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { collection, Firestore, setDoc, doc } from '@angular/fire/firestore';
 import { AuthService } from 'src/app/auth.service';
+import { StayService } from 'src/app/services/stay.service';
 import { ModalService } from '../modal/modal.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class ActivityComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private authService: AuthService,
-    private firestore: Firestore
+    private stayService: StayService
   ) {}
 
   ngOnInit(): void {}
@@ -37,8 +37,6 @@ export class ActivityComponent implements OnInit {
       this.date
     ].googleDirectionLink = this.authService.getGoogleUrl(this.date);
 
-    // TODO refactor db logic
-    const db = collection(this.firestore, 'stays');
-    setDoc(doc(db, this.authService.stayId), this.authService.authObject);
+    this.stayService.saveStay();
   }
 }

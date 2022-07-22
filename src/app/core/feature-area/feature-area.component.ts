@@ -1,16 +1,9 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-
-import {
-  Firestore,
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-} from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthObject, AuthService } from 'src/app/auth.service';
 import { ModalService } from 'src/app/components/modal/modal.service';
+import { StayService } from 'src/app/services/stay.service';
 
 @Component({
   selector: 'app-feature-area',
@@ -21,9 +14,9 @@ export class FeatureAreaComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public modalService: ModalService,
-    private firestore: Firestore,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private stayService: StayService
   ) {
     this.getStay();
   }
@@ -32,22 +25,17 @@ export class FeatureAreaComponent implements OnInit {
     console.log(this.authService.authObject);
   }
 
-  getStay(): void {
+  async getStay(): Promise<void> {
     // TODO: implement loader
     this.authService.stayId = this.route.snapshot.params['stayId'];
 
-    // TODO refactor db logic
-    const db = collection(this.firestore, 'stays');
-    const docRef = doc(db, this.authService.stayId);
-    const docSnap = getDoc(docRef);
-    docSnap.then((doc) => {
-      console.log(doc.data());
-      if (!doc.data()) {
-        this.router.navigate(['/404']);
-      } else {
-        this.authService.setAuthObject(<AuthObject>doc.data());
-      }
-    });
+    const doc = await this.stayService.getStay();
+    console.log(doc.data());
+    if (!doc.data()) {
+      this.router.navigate(['/404']);
+    } else {
+      this.authService.setAuthObject(<AuthObject>doc.data());
+    }
   }
 
   drop(event: CdkDragDrop<string[]>, date: string) {
@@ -57,7 +45,6 @@ export class FeatureAreaComponent implements OnInit {
       event.previousIndex,
       event.currentIndex
     );
-    const db = collection(this.firestore, 'stays');
-    setDoc(doc(db, this.authService.stayId), this.authService.authObject);
+    this.stayService.saveStay();
   }
 }

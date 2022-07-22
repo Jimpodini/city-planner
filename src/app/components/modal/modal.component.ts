@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Firestore, setDoc, doc, collection } from '@angular/fire/firestore';
 import { FormControl } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { ACTIVITIES } from 'src/app/activities';
 import { AuthService } from 'src/app/auth.service';
+import { StayService } from 'src/app/services/stay.service';
 import { ModalService } from './modal.service';
 
 @Component({
@@ -25,7 +25,7 @@ export class ModalComponent implements OnInit {
   constructor(
     public modalService: ModalService,
     private authService: AuthService,
-    private firestore: Firestore
+    private stayService: StayService
   ) {}
 
   ngOnInit(): void {
@@ -45,9 +45,7 @@ export class ModalComponent implements OnInit {
       this.modalService.date
     );
 
-    // TODO refactor db logic
-    const db = collection(this.firestore, 'stays');
-    setDoc(doc(db, this.authService.stayId), this.authService.authObject);
+    this.stayService.saveStay();
   }
 
   activateCategoryFilter(category: string): void {
