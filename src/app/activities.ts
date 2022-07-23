@@ -25,4 +25,20 @@ export const ACTIVITIES = [
     googlePlaceId: 'ChIJ5XkeUlydX0YRZI4qUQABRzU',
     description: 'This is my description',
   },
+  {
+    name: 'Boqueria',
+    category: 'Bars',
+    img: 'boqueria.jpg',
+    imgLong: 'boqueria_long.png',
+    googlePlaceId: 'ChIJ5XkeUlydX0YRZI4qUQABRzU',
+    description: 'This is my description',
+  },
+  {
+    name: 'Boqueria',
+    category: 'Bars',
+    img: 'boqueria.jpg',
+    imgLong: 'boqueria_long.png',
+    googlePlaceId: 'ChIJ5XkeUlydX0YRZI4qUQABRzU',
+    description: 'This is my description',
+  },
 ];
