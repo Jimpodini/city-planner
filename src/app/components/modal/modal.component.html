@@ -1,4 +1,4 @@
-<div class="modal">
+<div class="modal overflow-hidden">
   <div class="search-header">
     <i class="fa-solid fa-magnifying-glass search-icon"></i>
     <div *ngIf="activatedCategoryFilter" class="chosen-category">
@@ -37,8 +37,23 @@
       />
       <div class="flex justify-center items-center w-full">
         {{ activity.name }}
+        <i
+          class="fa-solid fa-circle-info ml-2 text-3xl cursor-pointer"
+          (click)="$event.stopPropagation(); selectedActivity = activity"
+        ></i>
       </div>
     </div>
+  </div>
+  <div
+    class="description-container absolute top-0 left-0 w-full h-full flex justify-center items-center bg-black/90 transition"
+    [class.-translate-x-full]="!selectedActivity"
+    [class.translate-x-0]="selectedActivity"
+  >
+    <i
+      (click)="selectedActivity = null"
+      class="fa-solid fa-arrow-left absolute text-2xl p-5 top-0 right-0 cursor-pointer"
+    ></i>
+    {{ selectedActivity?.description }}
   </div>
 </div>
 <div class="overlay" (click)="modalService.showModal = false"></div>

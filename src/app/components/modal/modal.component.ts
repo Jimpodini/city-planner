@@ -16,6 +16,7 @@ export class ModalComponent implements OnInit {
 
   activities = ACTIVITIES;
   filteredActivities = ACTIVITIES;
+  selectedActivity: any = null;
   categories = ['Parks', 'Restaurants', 'Bars'];
   activatedCategoryFilter: string = '';
   searchInput = new FormControl('');
