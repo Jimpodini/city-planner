@@ -18,6 +18,9 @@ import { FeatureAreaComponent } from './core/feature-area/feature-area.component
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ActivityButtonComponent } from './components/activity/activity-button/activity-button.component';
 import { CategoryIconComponent } from './components/activity/category-icon/category-icon.component';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { environment } from 'src/environments/environment';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,7 @@ import { CategoryIconComponent } from './components/activity/category-icon/categ
     PageNotFoundComponent,
     ActivityButtonComponent,
     CategoryIconComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,17 +41,9 @@ import { CategoryIconComponent } from './components/activity/category-icon/categ
     AppRoutingModule,
     ReactiveFormsModule,
     MatMenuModule,
-    provideFirebaseApp(() =>
-      initializeApp({
-        apiKey: 'AIzaSyDZe8Ov89o0t-_MXhlszvF_GsbAhBEK-m0',
-        authDomain: 'city-planner-d1807.firebaseapp.com',
-        projectId: 'city-planner-d1807',
-        storageBucket: 'city-planner-d1807.appspot.com',
-        messagingSenderId: '550836693589',
-        appId: '1:550836693589:web:b333228411da1ec48982dc',
-      })
-    ),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
   ],
   providers: [],
   bootstrap: [AppComponent],
