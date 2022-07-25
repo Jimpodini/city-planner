@@ -1,0 +1,31 @@
+<div class="flex justify-center items-center h-screen">
+  <div class="bg-white p-10 rounded-md shadow-md mx-3">
+    <!-- TODO: refactor text into seperate component -->
+    <form [formGroup]="registerForm" (ngSubmit)="submitForm()">
+      <input
+        formControlName="email"
+        type="email"
+        placeholder="Email"
+        class="w-full border rounded-md p-3 mb-3"
+      />
+      <input
+        formControlName="password"
+        type="password"
+        placeholder="Password"
+        class="w-full border rounded-md p-3 mb-3"
+      />
+      <button
+        type="submit"
+        [disabled]="!registerForm.valid"
+        class="w-full rounded-md text-white uppercase tracking-widest shadow-lg shadow-pink-800/50 p-3 bg-pink-800 mb-7 disabled:cursor-not-allowed disabled:bg-pink-800/60"
+      >
+        <span *ngIf="!loading">Register</span>
+        <i *ngIf="loading" class="fas fa-spinner fa-spin"></i>
+      </button>
+      <div class="text-center text-gray-600">
+        Already have an account?
+        <a routerLink="/login" class="text-pink-800 underline">Login</a>
+      </div>
+    </form>
+  </div>
+</div>
