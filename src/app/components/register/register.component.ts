@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
-import {
-  FormBuilder,
-  NonNullableFormBuilder,
-  Validators,
-} from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
@@ -37,15 +32,13 @@ export class RegisterComponent implements OnInit {
     )
       .then((v) => {
         this.loading = false;
+        // TODO: Redirect to logged in state
         console.log(v);
       })
       .catch((e) => {
         console.log(e);
-        this.openSnackbar();
+        this.loading = false;
+        this.snackbar.openSnackbar('error', 'Something went wrong');
       });
-  }
-
-  private openSnackbar() {
-    this.snackbar.openSnackbar();
   }
 }
