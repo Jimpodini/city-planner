@@ -1,25 +1,30 @@
 <div class="flex justify-center items-center h-screen">
   <div class="bg-white p-10 rounded-md shadow-md mx-3">
     <!-- TODO: refactor text into seperate component -->
-    <input
-      type="text"
-      placeholder="Username"
-      class="w-full border rounded-md p-3 mb-3"
-    />
-    <input
-      type="password"
-      placeholder="Password"
-      class="w-full border rounded-md p-3 mb-3"
-    />
-    <div class="text-right mb-3 text-gray-600 italic">
-      <a href="#">Forgot password?</a>
-    </div>
-    <button
-      type="submit"
-      class="w-full rounded-md text-white uppercase tracking-widest shadow-lg shadow-indigo-800/50 p-3 bg-indigo-800 mb-7"
-    >
-      Login
-    </button>
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+      <input
+        formControlName="email"
+        type="email"
+        placeholder="Email"
+        class="w-full border rounded-md p-3 mb-3"
+      />
+      <input
+        formControlName="password"
+        type="password"
+        placeholder="Password"
+        class="w-full border rounded-md p-3 mb-3"
+      />
+      <div class="text-right mb-3 text-gray-600 italic">
+        <a href="#">Forgot password?</a>
+      </div>
+      <button
+        type="submit"
+        [disabled]="!loginForm.valid"
+        class="w-full rounded-md text-white uppercase tracking-widest shadow-lg shadow-indigo-800/50 p-3 bg-indigo-800 mb-7 disabled:bg-indigo-800/80 disabled:cursor-not-allowed"
+      >
+        Login
+      </button>
+    </form>
     <div class="text-center text-gray-600">
       Don't have an account?
       <a routerLink="/register" class="text-indigo-800 underline">Register</a>
