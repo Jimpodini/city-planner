@@ -19,10 +19,13 @@ import { FeatureAreaComponent } from './core/feature-area/feature-area.component
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ActivityButtonComponent } from './components/activity/activity-button/activity-button.component';
 import { CategoryIconComponent } from './components/activity/category-icon/category-icon.component';
-import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { AdminPageComponent } from './pages/admin-page/admin-page.component';
+
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,7 @@ import { RegisterComponent } from './components/register/register.component';
     CategoryIconComponent,
     LoginComponent,
     RegisterComponent,
+    AdminPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,7 @@ import { RegisterComponent } from './components/register/register.component';
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
   ],
-  providers: [],
+  providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
