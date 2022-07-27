@@ -20,9 +20,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { ActivityButtonComponent } from './components/activity/activity-button/activity-button.component';
 import { CategoryIconComponent } from './components/activity/category-icon/category-icon.component';
 import { environment } from 'src/environments/environment';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
@@ -36,9 +33,6 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
     PageNotFoundComponent,
     ActivityButtonComponent,
     CategoryIconComponent,
-    LoginComponent,
-    RegisterComponent,
-    AdminPageComponent,
   ],
   imports: [
     BrowserModule,

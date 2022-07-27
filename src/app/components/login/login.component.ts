@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
   });
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    private auth: Auth
+    private auth: Auth,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -24,7 +26,9 @@ export class LoginComponent implements OnInit {
       this.auth,
       this.loginForm.controls.email.value,
       this.loginForm.controls.password.value
-    );
+    ).then(() => {
+      this.router.navigate(['/admin']);
+    });
     console.log('Form submitted');
   }
 }
