@@ -1,0 +1,10 @@
+$toolbar-height: 4rem;
+
+.toolbar {
+  height: $toolbar-height;
+}
+
+.content {
+  padding-top: $toolbar-height;
+  height: calc(100vh - $toolbar-height);
+}
