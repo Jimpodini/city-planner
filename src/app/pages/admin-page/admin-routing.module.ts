@@ -8,6 +8,7 @@ import {
 import { AdminPageComponent } from './admin-page.component';
 import { LoginComponent } from 'src/app/components/login/login.component';
 import { RegisterComponent } from 'src/app/components/register/register.component';
+import { LocationsComponent } from '../locations/locations.component';
 
 const redirectUnauthorizedToLogin = () =>
   redirectUnauthorizedTo(['/admin/login']);
@@ -25,7 +26,7 @@ const routes: Routes = [
       },
       {
         path: 'planner',
-        component: RegisterComponent,
+        component: LocationsComponent,
         ...canActivate(redirectUnauthorizedToLogin),
       },
       {
