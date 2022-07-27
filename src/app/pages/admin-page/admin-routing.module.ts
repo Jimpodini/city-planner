@@ -10,24 +10,35 @@ import { LoginComponent } from 'src/app/components/login/login.component';
 import { RegisterComponent } from 'src/app/components/register/register.component';
 
 const redirectUnauthorizedToLogin = () =>
-  redirectUnauthorizedTo(['admin/login']);
-const redirectLoggedInToAdmin = () => redirectLoggedInTo(['admin']);
+  redirectUnauthorizedTo(['/admin/login']);
+const redirectLoggedInToAdmin = () => redirectLoggedInTo(['/admin']);
 
 const routes: Routes = [
   {
     path: '',
     component: AdminPageComponent,
-    ...canActivate(redirectUnauthorizedToLogin),
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-    ...canActivate(redirectLoggedInToAdmin),
-  },
-  {
-    path: 'register',
-    component: RegisterComponent,
-    ...canActivate(redirectLoggedInToAdmin),
+    children: [
+      {
+        path: '',
+        redirectTo: 'planner',
+        pathMatch: 'full',
+      },
+      {
+        path: 'planner',
+        component: RegisterComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
+      },
+      {
+        path: 'login',
+        component: LoginComponent,
+        ...canActivate(redirectLoggedInToAdmin),
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+        ...canActivate(redirectLoggedInToAdmin),
+      },
+    ],
   },
 ];
 
