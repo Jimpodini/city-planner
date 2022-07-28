@@ -5,6 +5,7 @@ $toolbar-height: 4rem;
 }
 
 .content {
+  padding: 0 50px;
   padding-top: $toolbar-height;
-  height: calc(100vh - $toolbar-height);
+  height: 100vh;
 }
