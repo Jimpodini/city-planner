@@ -1,81 +1,35 @@
-<div class="h-full flex justify-center items-center">
-  <button
-    (click)="openDialog()"
-    class="bg-teal-900 text-white p-1 px-2 rounded-md"
-  >
-    Create location
-  </button>
-  <!-- <table
-    mat-table
-    [dataSource]="dataSource"
-    multiTemplateDataRows
-    class="mat-elevation-z8"
-  >
-    <ng-container
-      matColumnDef="{{ column }}"
-      *ngFor="let column of columnsToDisplay"
+<div class="h-full flex justify-center items-center flex-col">
+  <div class="w-full flex justify-end mb-2">
+    <button
+      (click)="openDialog()"
+      class="bg-teal-900 text-white p-1 px-2 rounded-md"
     >
-      <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
-      <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
-    </ng-container>
-    <ng-container matColumnDef="expand">
-      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
-      <td mat-cell *matCellDef="let element">
-        <button
-          mat-icon-button
-          aria-label="expand row"
-          (click)="
-            expandedElement = expandedElement === element ? null : element;
-            $event.stopPropagation()
-          "
-        >
-          <i *ngIf="expandedElement !== element">keyboard_arrow_down</i>
-          <i *ngIf="expandedElement === element">keyboard_arrow_up</i>
-        </button>
-      </td>
+      Create location
+    </button>
+  </div>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>Id</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
     </ng-container>
 
-     Expanded Content Column - The detail row is made up of this one column that spans across all columns
-    <ng-container matColumnDef="expandedDetail">
-      <td
-        mat-cell
-        *matCellDef="let element"
-        [attr.colspan]="columnsToDisplayWithExpand.length"
-      >
-        <div
-          class="example-element-detail"
-          [@detailExpand]="
-            element == expandedElement ? 'expanded' : 'collapsed'
-          "
-        >
-          <div class="example-element-diagram">
-            <div class="example-element-position">{{ element.position }}</div>
-            <div class="example-element-symbol">{{ element.symbol }}</div>
-            <div class="example-element-name">{{ element.name }}</div>
-            <div class="example-element-weight">{{ element.weight }}</div>
-          </div>
-          <div class="example-element-description">
-            {{ element.description }}
-            <span class="example-element-description-attribution">
-              -- Wikipedia
-            </span>
-          </div>
-        </div>
-      </td>
+    <!-- Name Column -->
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef>Address</th>
+      <td mat-cell *matCellDef="let element">{{ element.address }}</td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
-    <tr
-      mat-row
-      *matRowDef="let element; columns: columnsToDisplayWithExpand"
-      class="example-element-row"
-      [class.example-expanded-row]="expandedElement === element"
-      (click)="expandedElement = expandedElement === element ? null : element"
-    ></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: ['expandedDetail']"
-      class="example-detail-row"
-    ></tr>
-  </table> -->
+    <!-- Weight Column -->
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef>City</th>
+      <td mat-cell *matCellDef="let element">{{ element.city }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
 </div>
