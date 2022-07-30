@@ -9,6 +9,7 @@ import { AdminPageComponent } from './admin-page.component';
 import { LoginComponent } from 'src/app/components/login/login.component';
 import { RegisterComponent } from 'src/app/components/register/register.component';
 import { LocationsComponent } from '../locations/locations.component';
+import { LocationComponent } from '../locations/location/location.component';
 
 const redirectUnauthorizedToLogin = () =>
   redirectUnauthorizedTo(['/admin/login']);
@@ -23,6 +24,11 @@ const routes: Routes = [
         path: '',
         redirectTo: 'planner',
         pathMatch: 'full',
+      },
+      {
+        path: 'planner/:locationId',
+        component: LocationComponent,
+        ...canActivate(redirectUnauthorizedToLogin),
       },
       {
         path: 'planner',
