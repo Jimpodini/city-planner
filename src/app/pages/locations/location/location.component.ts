@@ -3,6 +3,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { ActivityService } from 'src/app/services/activity.service';
 
 @Component({
   selector: 'app-location',
@@ -11,15 +12,27 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 })
 export class LocationComponent implements OnInit {
   locationId!: string;
+  displayedColumns: string[] = ['name'];
+  dataSource: any;
 
-  constructor(private route: ActivatedRoute, private dialog: MatDialog) {}
+  constructor(
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private activityService: ActivityService
+  ) {}
 
   ngOnInit(): void {
     this.locationId = this.route.snapshot.params['locationId'];
+    this.dataSource = this.activityService.getActivities(this.locationId);
+    this.activityService.getActivities(this.locationId).subscribe(console.log);
   }
 
   openDialog() {
-    this.dialog.open(CreateActivityDialog);
+    this.dialog.open(CreateActivityDialog, {
+      data: {
+        locationId: this.locationId,
+      },
+    });
   }
 }
 
@@ -135,7 +148,9 @@ export class CreateActivityDialog {
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private activityService: ActivityService
   ) {}
 
   openDialog(imageChangedEvent: any, thumbnail = false) {
@@ -158,11 +173,10 @@ export class CreateActivityDialog {
 
   submitForm() {
     console.log(this.createActivityForm.value);
-    // console.log(this.createLocationForm.value);
-    // this.locationService.createLocation({
-    //   address: this.createLocationForm.controls.address.value,
-    //   city: this.createLocationForm.controls.city.value,
-    // });
+    this.activityService.createActivity(
+      this.data.locationId,
+      this.createActivityForm.value
+    );
   }
 }
 
