@@ -7,6 +7,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { LoginComponent } from 'src/app/components/login/login.component';
 import { AdminRoutingModule } from './admin-routing.module';
@@ -16,6 +19,11 @@ import {
   CreateLocationDialog,
   LocationsComponent,
 } from '../locations/locations.component';
+import {
+  CreateActivityDialog,
+  ImageUploadDialog,
+  LocationComponent,
+} from '../locations/location/location.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +32,9 @@ import {
     RegisterComponent,
     LocationsComponent,
     CreateLocationDialog,
+    LocationComponent,
+    CreateActivityDialog,
+    ImageUploadDialog,
   ],
   imports: [
     CommonModule,
@@ -34,6 +45,8 @@ import {
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
+    MatSelectModule,
+    ImageCropperModule,
   ],
   providers: [],
 })
