@@ -68,3 +68,13 @@ body {
 .error-snackbar {
   border-left: 5px solid rgb(153, 27, 27);
 }
+
+// Tables
+.mat-table {
+  background-color: transparent !important;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 1rem;
+}
