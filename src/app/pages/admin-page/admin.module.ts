@@ -19,11 +19,12 @@ import {
   CreateLocationDialog,
   LocationsComponent,
 } from '../admin-page/locations/locations.component';
+import { LocationComponent } from '../admin-page/locations/location/location.component';
 import {
+  ActivitiesComponent,
   CreateActivityDialog,
   ImageUploadDialog,
-  LocationComponent,
-} from '../admin-page/locations/location/location.component';
+} from './locations/location/activities/activities.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import {
     LocationComponent,
     CreateActivityDialog,
     ImageUploadDialog,
+    ActivitiesComponent,
   ],
   imports: [
     CommonModule,
