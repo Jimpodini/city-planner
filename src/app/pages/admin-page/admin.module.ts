@@ -18,12 +18,12 @@ import { RegisterComponent } from 'src/app/components/register/register.componen
 import {
   CreateLocationDialog,
   LocationsComponent,
-} from '../locations/locations.component';
+} from '../admin-page/locations/locations.component';
 import {
   CreateActivityDialog,
   ImageUploadDialog,
   LocationComponent,
-} from '../locations/location/location.component';
+} from '../admin-page/locations/location/location.component';
 
 @NgModule({
   declarations: [

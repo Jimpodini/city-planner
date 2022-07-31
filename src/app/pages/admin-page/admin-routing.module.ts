@@ -8,8 +8,8 @@ import {
 import { AdminPageComponent } from './admin-page.component';
 import { LoginComponent } from 'src/app/components/login/login.component';
 import { RegisterComponent } from 'src/app/components/register/register.component';
-import { LocationsComponent } from '../locations/locations.component';
-import { LocationComponent } from '../locations/location/location.component';
+import { LocationsComponent } from '../admin-page/locations/locations.component';
+import { LocationComponent } from '../admin-page/locations/location/location.component';
 
 const redirectUnauthorizedToLogin = () =>
   redirectUnauthorizedTo(['/admin/login']);
