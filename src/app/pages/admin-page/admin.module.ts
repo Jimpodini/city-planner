@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { ImageCropperModule } from 'ngx-image-cropper';
 
@@ -25,6 +26,10 @@ import {
   CreateActivityDialog,
   ImageUploadDialog,
 } from './locations/location/activities/activities.component';
+import {
+  CreateStayDialog,
+  StaysComponent,
+} from './locations/location/stays/stays.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +42,8 @@ import {
     CreateActivityDialog,
     ImageUploadDialog,
     ActivitiesComponent,
+    StaysComponent,
+    CreateStayDialog,
   ],
   imports: [
     CommonModule,
@@ -48,6 +55,7 @@ import {
     MatButtonModule,
     MatInputModule,
     MatSelectModule,
+    MatDatepickerModule,
     ImageCropperModule,
   ],
   providers: [],
