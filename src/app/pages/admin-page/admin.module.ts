@@ -30,6 +30,7 @@ import {
   CreateStayDialog,
   StaysComponent,
 } from './locations/location/stays/stays.component';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -56,8 +57,9 @@ import {
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     ImageCropperModule,
   ],
-  providers: [],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'sv-SE' }],
 })
 export class AdminModule {}

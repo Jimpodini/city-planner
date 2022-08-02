@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import {
+  FormControl,
+  NonNullableFormBuilder,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { ActivityService } from 'src/app/services/activity.service';
 import { StayService } from 'src/app/services/stay.service';
 
 @Component({
@@ -71,14 +73,17 @@ export class StaysComponent implements OnInit {
             Guest name is <strong>required</strong>
           </mat-error>
         </mat-form-field>
-        <!-- <mat-form-field appearance="fill" class="mb-2">
+        <mat-form-field appearance="fill" class="mb-2">
           <mat-label>Choose a date</mat-label>
           <input
             matInput
-            [matDatepicker]="picker"
+            [matDatepicker]="checkInDatePicker"
             formControlName="checkInDate"
+            (dateChange)="
+              convertDateToYYYYMMDD(createStayForm.controls.checkInDate)
+            "
           />
-          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-hint>YYYY-MM-DD</mat-hint>
           <mat-error
             *ngIf="createStayForm.controls.checkInDate.hasError('required')"
           >
@@ -86,27 +91,31 @@ export class StaysComponent implements OnInit {
           </mat-error>
           <mat-datepicker-toggle
             matSuffix
-            [for]="picker"
+            [for]="checkInDatePicker"
           ></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field> -->
-        <!-- <mat-form-field appearance="fill" class="mb-2">
-          <mat-label>Check-in date</mat-label>
-          <input matInput formControlName="checkInDate" />
-          <mat-error
-            *ngIf="createStayForm.controls.checkInDate.hasError('required')"
-          >
-            Check-in date is <strong>required</strong>
-          </mat-error>
-        </mat-form-field> -->
+          <mat-datepicker #checkInDatePicker></mat-datepicker>
+        </mat-form-field>
         <mat-form-field appearance="fill">
-          <mat-label>Check-out date</mat-label>
-          <input matInput formControlName="checkOutDate" />
+          <mat-label>Choose a date</mat-label>
+          <input
+            matInput
+            [matDatepicker]="checkOutDatePicker"
+            formControlName="checkOutDate"
+            (dateChange)="
+              convertDateToYYYYMMDD(createStayForm.controls.checkOutDate)
+            "
+          />
+          <mat-hint>YYYY-MM-DD</mat-hint>
           <mat-error
             *ngIf="createStayForm.controls.checkOutDate.hasError('required')"
           >
-            Check out date is <strong>required</strong>
+            Check-out date is <strong>required</strong>
           </mat-error>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="checkOutDatePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #checkOutDatePicker></mat-datepicker>
         </mat-form-field>
       </form>
     </div>
@@ -139,16 +148,20 @@ export class CreateStayDialog {
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) private data: any,
     private stayService: StayService
   ) {}
 
   submitForm() {
-    console.log(this.createStayForm.value);
     this.stayService.createStay(
       this.data.locationId,
       this.createStayForm.value
     );
+  }
+
+  convertDateToYYYYMMDD(formControl: FormControl) {
+    if (formControl.value) {
+      formControl.setValue(formControl.value.toISOString().split('T')[0]);
+    }
   }
 }
