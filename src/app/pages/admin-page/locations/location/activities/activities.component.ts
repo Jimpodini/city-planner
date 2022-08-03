@@ -72,9 +72,9 @@ export class ActivitiesComponent implements OnInit {
         <mat-form-field appearance="fill" class="mb-2">
           <mat-label>Category</mat-label>
           <mat-select formControlName="category">
-            <mat-option value="1"> 1 </mat-option>
-            <mat-option value="2"> 2 </mat-option>
-            <mat-option value="3"> 3 </mat-option>
+            <mat-option value="Parks"> Parks </mat-option>
+            <mat-option value="Bars"> Bars </mat-option>
+            <mat-option value="Restaurants"> Restaurants </mat-option>
           </mat-select>
           <mat-error
             *ngIf="createActivityForm.controls.category.hasError('required')"
