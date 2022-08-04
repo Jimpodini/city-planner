@@ -5,6 +5,7 @@ import {
   CollectionReference,
   DocumentData,
   Firestore,
+  getDoc,
   getDocs,
   query,
   where,
@@ -20,6 +21,11 @@ export class LocationService {
 
   constructor(private firestore: Firestore, private auth: Auth) {
     this.db = collection(this.firestore, 'locations');
+  }
+
+  getLocation(locationId: string) {
+    const docRef = doc(this.db, locationId);
+    return getDoc(docRef);
   }
 
   getLocations(): Observable<Location[]> {
