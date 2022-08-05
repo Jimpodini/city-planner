@@ -39,7 +39,14 @@ export class StayService {
   }
 
   createStay(locationId: string, stay: any) {
-    return addDoc(this.db, { ...stay, locationId });
+    return addDoc(this.db, {
+      ...stay,
+      locationId,
+      activitiesPerDate: this.getDatesInRange(
+        stay.checkInDate,
+        stay.checkOutDate
+      ),
+    });
   }
 
   // TODO: remove all any's
@@ -51,5 +58,26 @@ export class StayService {
         (querySnapshot) => querySnapshot.docs.map((doc) => doc.data()) as any[]
       )
     );
+  }
+
+  // TODO: choose better name
+  private getDatesInRange(startDate: string, endDate: string): any {
+    const d1 = new Date(startDate);
+    const d2 = new Date(endDate);
+
+    const date = new Date(d1.getTime());
+
+    const activitiesPerDate: any = {};
+
+    while (date <= d2) {
+      const dateIso = new Date(date).toISOString().split('T')[0];
+      activitiesPerDate[dateIso] = {
+        activities: [],
+        googleDirectionLink: '',
+      };
+      date.setDate(date.getDate() + 1);
+    }
+
+    return activitiesPerDate;
   }
 }
