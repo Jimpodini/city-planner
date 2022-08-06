@@ -4,7 +4,6 @@ import {
   CollectionReference,
   DocumentData,
   Firestore,
-  setDoc,
   doc,
   getDoc,
   DocumentSnapshot,
@@ -12,6 +11,7 @@ import {
   getDocs,
   query,
   where,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { from, map } from 'rxjs';
 import { AuthService } from '../auth.service';
@@ -32,10 +32,9 @@ export class StayService {
   }
 
   saveStay(): Promise<void> {
-    return setDoc(
-      doc(this.db, this.authService.stayId),
-      this.authService.authObject
-    );
+    return updateDoc(doc(this.db, this.authService.stayId), {
+      activitiesPerDate: this.authService.authObject.activitiesPerDate,
+    });
   }
 
   createStay(locationId: string, stay: any) {
