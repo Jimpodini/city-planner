@@ -8,11 +8,7 @@
         'category-restaurant': activity.category === 'Restaurants'
       }"
     >
-      <img
-        [src]="'/assets/activities-images/' + activity.imgLong"
-        alt="image"
-        class="max-w-none grayscale"
-      />
+      <img [src]="activity.image" alt="image" class="max-w-none grayscale" />
       <div class="delete-container">
         <!-- TODO refactor to one method deleteActivity -->
         <div

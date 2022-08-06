@@ -30,11 +30,7 @@
       (click)="addActivity(activity); modalService.showModal = false"
       class="activity flex overflow-hidden"
     >
-      <img
-        [src]="'/assets/activities-images/' + activity.img"
-        alt="image"
-        class="activity-image"
-      />
+      <img [src]="activity.thumbnail" alt="image" class="activity-image" />
       <div class="flex justify-center items-center w-full">
         {{ activity.name }}
         <i
