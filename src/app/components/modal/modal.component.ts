@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
+// TODO and remove static activities (or keep as demo data)
 import { ACTIVITIES } from 'src/app/activities';
 import { AuthService } from 'src/app/auth.service';
+import { ActivityService } from 'src/app/services/activity.service';
 import { StayService } from 'src/app/services/stay.service';
 import { ModalService } from './modal.service';
 
@@ -14,8 +16,8 @@ import { ModalService } from './modal.service';
 export class ModalComponent implements OnInit {
   @Input() date: string | undefined;
 
-  activities = ACTIVITIES;
-  filteredActivities = ACTIVITIES;
+  activities = this.activityService.activities;
+  filteredActivities = this.activities;
   selectedActivity: any = null;
   categories = ['Parks', 'Restaurants', 'Bars'];
   activatedCategoryFilter: string = '';
@@ -26,7 +28,8 @@ export class ModalComponent implements OnInit {
   constructor(
     public modalService: ModalService,
     private authService: AuthService,
-    private stayService: StayService
+    private stayService: StayService,
+    private activityService: ActivityService
   ) {}
 
   ngOnInit(): void {
