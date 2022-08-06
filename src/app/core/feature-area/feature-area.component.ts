@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthObject, AuthService } from 'src/app/auth.service';
 import { ModalService } from 'src/app/components/modal/modal.service';
+import { ActivityService } from 'src/app/services/activity.service';
+import { LocationService } from 'src/app/services/location.service';
 import { StayService } from 'src/app/services/stay.service';
 
 @Component({
@@ -16,25 +18,41 @@ export class FeatureAreaComponent implements OnInit {
     public modalService: ModalService,
     private route: ActivatedRoute,
     private router: Router,
-    private stayService: StayService
+    private stayService: StayService,
+    private activityService: ActivityService,
+    private locationService: LocationService
   ) {
     this.getStay();
   }
 
-  ngOnInit() {
-    console.log(this.authService.authObject);
-  }
+  ngOnInit() {}
 
+  // TODO: refactor this method
   async getStay(): Promise<void> {
     // TODO: implement loader
     this.authService.stayId = this.route.snapshot.params['stayId'];
 
     const doc = await this.stayService.getStay();
+    let authObject = doc.data();
     console.log(doc.data());
+    const locationId = doc.data()?.['locationId'];
+    const locationData1 = await this.locationService.getLocation(locationId);
+    const locationData2: any = locationData1.data();
+    authObject = {
+      ...authObject,
+      homeAddress: locationData2.address,
+      homeCity: locationData2.city,
+    };
+    // console.log(doc2.data());
+    this.activityService
+      .getActivities(locationId)
+      .subscribe(
+        (activities) => (this.activityService.activities = activities)
+      );
     if (!doc.data()) {
       this.router.navigate(['/404']);
     } else {
-      this.authService.setAuthObject(<AuthObject>doc.data());
+      this.authService.setAuthObject(<AuthObject>authObject);
     }
   }
 
