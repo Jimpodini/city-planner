@@ -17,6 +17,8 @@ import { from, map } from 'rxjs';
   providedIn: 'root',
 })
 export class ActivityService {
+  activities: any[] = [];
+
   constructor(private firestore: Firestore) {}
 
   getActivities(locationId: string) {
