@@ -17,7 +17,7 @@ import { StayService } from 'src/app/services/stay.service';
     >
       Create stay
     </button>
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
       <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
