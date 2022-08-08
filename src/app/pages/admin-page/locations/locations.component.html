@@ -1,13 +1,10 @@
-<div class="h-full flex justify-center items-center flex-col">
+<div class="h-full flex items-center flex-col">
   <div class="w-full flex justify-end mb-2">
-    <button
-      (click)="openDialog()"
-      class="bg-teal-900 text-white p-1 px-2 rounded-md"
-    >
+    <button (click)="openDialog()" mat-raised-button color="primary">
       Create location
     </button>
   </div>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
