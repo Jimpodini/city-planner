@@ -4,7 +4,11 @@
       Create location
     </button>
   </div>
-  <table mat-table [dataSource]="dataSource">
+  <table
+    *ngIf="dataSource | async; else loader"
+    mat-table
+    [dataSource]="dataSource"
+  >
     <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
@@ -35,3 +39,6 @@
     ></tr>
   </table>
 </div>
+<ng-template #loader>
+  <mat-spinner></mat-spinner>
+</ng-template>
