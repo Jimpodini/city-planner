@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LocationService } from 'src/app/services/location.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-locations',
@@ -9,20 +11,39 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./locations.component.scss'],
 })
 export class LocationsComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'address', 'city'];
+  displayedColumns: string[] = [];
   dataSource = this.locationService.getLocations();
+  destroy = new Subject<void>();
 
   constructor(
     private dialog: MatDialog,
-    private locationService: LocationService
+    private locationService: LocationService,
+    private breakpointObserver: BreakpointObserver
   ) {}
 
   ngOnInit() {
     this.locationService.getLocations().subscribe(console.log);
+
+    this.breakpointObserver
+      .observe(Breakpoints.XSmall)
+      .pipe(takeUntil(this.destroy))
+      .subscribe((res) => {
+        console.log(res);
+        if (res.matches) {
+          this.displayedColumns = ['address', 'city'];
+        } else {
+          this.displayedColumns = ['id', 'address', 'city'];
+        }
+      });
   }
 
   openDialog(): void {
     this.dialog.open(CreateLocationDialog);
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.complete();
   }
 }
 
