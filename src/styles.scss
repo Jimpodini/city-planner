@@ -79,7 +79,37 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  border-radius: 1rem;
+  border-top-right-radius: 1rem;
+  border-top-left-radius: 1rem;
+
+  thead th {
+    // TODO: use primary color
+    background-color: #3f51b5;
+    color: white !important;
+    font-weight: bold !important;
+
+    &:first-child {
+      border-top-left-radius: 1rem;
+    }
+
+    &:last-child {
+      border-top-right-radius: 1rem;
+    }
+  }
+
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+      &:hover {
+        background-color: rgb(238, 238, 238);
+      }
+      &:last-child {
+        border-bottom: 2px solid #3f51b5;
+      }
+    }
+  }
 }
 
 table tr:last-child td /*To remove the last border*/ {
