@@ -7,27 +7,50 @@ import { ActivityService } from 'src/app/services/activity.service';
 @Component({
   selector: 'app-activities',
   template: `
-    <button
-      (click)="openDialog()"
-      class="bg-fuchsia-900 text-white p-1 px-2 rounded-md"
-    >
-      Create activity
-    </button>
-    <table mat-table [dataSource]="dataSource">
-      <!--- Note that these columns can be defined in any order.
+    <div class="flex items-center flex-col">
+      <div class="w-full flex justify-end mb-2">
+        <button
+          (click)="openDialog()"
+          mat-raised-button
+          class="bg-teal-800 text-white"
+        >
+          Create activity
+        </button>
+      </div>
+      <table
+        *ngIf="dataSource | async; else loader"
+        mat-table
+        [dataSource]="dataSource"
+      >
+        <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
 
-      <!-- Position Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>name</th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-      </ng-container>
+        <!-- Position Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="bg-teal-800">name</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          class="cursor-pointer last:border-b-teal-800"
+        ></tr>
+      </table>
+    </div>
+    <ng-template #loader>
+      <mat-spinner></mat-spinner>
+    </ng-template>
   `,
-  styles: [],
+  styles: [
+    `
+      ::ng-deep .mat-progress-spinner circle,
+      .mat-spinner circle {
+        stroke: rgb(17 94 89);
+      }
+    `,
+  ],
 })
 export class ActivitiesComponent implements OnInit {
   locationId!: string;
