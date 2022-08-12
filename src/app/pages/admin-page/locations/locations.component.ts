@@ -38,7 +38,15 @@ export class LocationsComponent implements OnInit {
   }
 
   openDialog(): void {
-    this.dialog.open(CreateLocationDialog);
+    const dialogRef = this.dialog.open(CreateLocationDialog);
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => {
+        if (result === 'submitted') {
+          this.dataSource = this.locationService.getLocations();
+        }
+      });
   }
 
   ngOnDestroy() {
@@ -78,7 +86,7 @@ export class LocationsComponent implements OnInit {
         (click)="submitForm()"
         mat-button
         color="primary"
-        mat-dialog-close
+        mat-dialog-close="submitted"
       >
         Create
       </button>
