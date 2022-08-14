@@ -1,3 +1,10 @@
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -20,6 +27,7 @@ import { ActivityService } from 'src/app/services/activity.service';
       <table
         *ngIf="dataSource | async; else loader"
         mat-table
+        multiTemplateDataRows
         [dataSource]="dataSource"
       >
         <!--- Note that these columns can be defined in any order.
@@ -27,15 +35,41 @@ import { ActivityService } from 'src/app/services/activity.service';
 
         <!-- Position Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef class="bg-teal-800">name</th>
+          <th mat-header-cell *matHeaderCellDef class="bg-teal-800">Name</th>
           <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+          <td
+            mat-cell
+            *matCellDef="let element"
+            [attr.colspan]="displayedColumns.length"
+          >
+            <div
+              class="example-element-detail"
+              [@detailExpand]="
+                element == expandedElement ? 'expanded' : 'collapsed'
+              "
+            >
+              Expanded details
+            </div>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr
           mat-row
-          *matRowDef="let row; columns: displayedColumns"
-          class="cursor-pointer last:border-b-teal-800"
+          *matRowDef="let element; columns: displayedColumns"
+          class="cursor-pointer example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="
+            expandedElement = expandedElement === element ? null : element
+          "
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let element; columns: ['expandedDetail']"
+          class="example-detail-row last:border-b-teal-800"
         ></tr>
       </table>
     </div>
@@ -49,12 +83,36 @@ import { ActivityService } from 'src/app/services/activity.service';
       .mat-spinner circle {
         stroke: rgb(17 94 89);
       }
+
+      tr.example-detail-row {
+        height: 0;
+      }
+
+      .example-element-row td {
+        border-bottom-width: 0;
+      }
+
+      .example-element-detail {
+        overflow: hidden;
+        display: flex;
+      }
     `,
+  ],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
   ],
 })
 export class ActivitiesComponent implements OnInit {
   locationId!: string;
   displayedColumns: string[] = ['name'];
+  expandedElement: any | null;
   dataSource: any;
 
   constructor(
