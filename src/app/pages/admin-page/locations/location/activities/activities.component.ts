@@ -34,9 +34,17 @@ import { ActivityService } from 'src/app/services/activity.service';
           The actual rendered columns are set as a property on the row definition" -->
 
         <!-- Position Column -->
+        <!-- TODO - loop over displayedColumns -->
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef class="bg-teal-800">Name</th>
           <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef class="bg-teal-800">
+            Category
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.category }}</td>
         </ng-container>
 
         <ng-container matColumnDef="expandedDetail">
@@ -51,7 +59,12 @@ import { ActivityService } from 'src/app/services/activity.service';
                 element == expandedElement ? 'expanded' : 'collapsed'
               "
             >
-              Expanded details
+              <div>
+                <img [src]="element.image" />
+              </div>
+              <div>
+                <img [src]="element.thumbnail" />
+              </div>
             </div>
           </td>
         </ng-container>
@@ -111,7 +124,7 @@ import { ActivityService } from 'src/app/services/activity.service';
 })
 export class ActivitiesComponent implements OnInit {
   locationId!: string;
-  displayedColumns: string[] = ['name'];
+  displayedColumns: string[] = ['name', 'category'];
   expandedElement: any | null;
   dataSource: any;
 
