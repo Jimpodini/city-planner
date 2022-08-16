@@ -59,11 +59,24 @@ import { ActivityService } from 'src/app/services/activity.service';
                 element == expandedElement ? 'expanded' : 'collapsed'
               "
             >
-              <div>
-                <img [src]="element.image" />
-              </div>
-              <div>
-                <img [src]="element.thumbnail" />
+              <div class="py-3">
+                <div>
+                  <button
+                    (click)="openImagePreview(element.image)"
+                    mat-raised-button
+                    class="bg-teal-800 text-white"
+                    style="margin-right: 1rem"
+                  >
+                    <i class="fa-solid fa-image"></i> Image
+                  </button>
+                  <button
+                    (click)="openImagePreview(element.thumbnail)"
+                    mat-raised-button
+                    class="bg-teal-800 text-white"
+                  >
+                    <i class="fa-solid fa-image"></i> Thumbnail
+                  </button>
+                </div>
               </div>
             </div>
           </td>
@@ -147,6 +160,21 @@ export class ActivitiesComponent implements OnInit {
       },
     });
   }
+
+  openImagePreview(image: string) {
+    this.dialog.open(ImagePreview, {
+      data: {
+        image,
+      },
+    });
+  }
+}
+
+@Component({
+  template: `<img [src]="data.image" />`,
+})
+export class ImagePreview {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
 }
 
 @Component({
