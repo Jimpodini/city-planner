@@ -10,6 +10,7 @@ import {
   getDocs,
   query,
   where,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { from, map } from 'rxjs';
 
@@ -33,6 +34,10 @@ export class ActivityService {
 
   createActivity(locationId: string, activity: any) {
     return addDoc(this.getDb(locationId), { ...activity, locationId });
+  }
+
+  deleteActivity(locationId: string, activityId: string) {
+    return deleteDoc(doc(this.getDb(locationId), activityId));
   }
 
   private getDb(locationId: string) {
