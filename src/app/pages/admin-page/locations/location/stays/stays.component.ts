@@ -11,31 +11,50 @@ import { StayService } from 'src/app/services/stay.service';
 @Component({
   selector: 'app-stays',
   template: `
-    <button
-      (click)="openDialog()"
-      class="bg-rose-900 text-white p-1 px-2 rounded-md"
-    >
-      Create stay
-    </button>
-    <table mat-table [dataSource]="dataSource">
-      <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
+    <div class="flex items-center flex-col">
+      <div class="w-full flex justify-end mb-2">
+        <button
+          (click)="openDialog()"
+          mat-raised-button
+          class="bg-rose-900 text-white"
+        >
+          Create stay
+        </button>
+      </div>
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="guestName">
+          <th mat-header-cell *matHeaderCellDef class="bg-rose-900">
+            Guest name
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.checkInDate }}</td>
+        </ng-container>
+        <ng-container matColumnDef="checkInDate">
+          <th mat-header-cell *matHeaderCellDef class="bg-rose-900">
+            Check-in date
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.checkInDate }}</td>
+        </ng-container>
+        <ng-container matColumnDef="checkOutDate">
+          <th mat-header-cell *matHeaderCellDef class="bg-rose-900">
+            Check-out date
+          </th>
+          <td mat-cell *matCellDef="let element">{{ element.checkInDate }}</td>
+        </ng-container>
 
-      <!-- Position Column -->
-      <ng-container matColumnDef="checkInDate">
-        <th mat-header-cell *matHeaderCellDef>checkInDate</th>
-        <td mat-cell *matCellDef="let element">{{ element.checkInDate }}</td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          class="last:border-b-rose-900"
+        ></tr>
+      </table>
+    </div>
   `,
   styles: [],
 })
 export class StaysComponent implements OnInit {
   locationId!: string;
-  displayedColumns: string[] = ['checkInDate'];
+  displayedColumns: string[] = ['guestName', 'checkInDate', 'checkOutDate'];
   dataSource: any;
 
   constructor(
@@ -47,7 +66,6 @@ export class StaysComponent implements OnInit {
   ngOnInit(): void {
     this.locationId = this.route.snapshot.params['locationId'];
     this.dataSource = this.stayService.getStays(this.locationId);
-    // this.activityService.getActivities(this.locationId).subscribe(console.log);
   }
 
   openDialog() {
