@@ -47,6 +47,22 @@ import { ActivityService } from 'src/app/services/activity.service';
           <td mat-cell *matCellDef="let element">{{ element.category }}</td>
         </ng-container>
 
+        <ng-container matColumnDef="deleteActivity">
+          <th mat-header-cell *matHeaderCellDef class="bg-teal-800"></th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              (click)="
+                activityService.deleteActivity(element.locationId, element.id);
+                $event.stopPropagation()
+              "
+              matTooltip="Delete activity"
+              matTooltipPosition="left"
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="expandedDetail">
           <td
             mat-cell
@@ -76,6 +92,14 @@ import { ActivityService } from 'src/app/services/activity.service';
                   >
                     <i class="fa-solid fa-image"></i> Thumbnail
                   </button>
+                  <div class="mt-2">
+                    <label class="block font-bold">Description</label>
+                    <span>{{ element.description }}</span>
+                  </div>
+                  <div class="mt-2">
+                    <label class="block font-bold">Google Place ID</label>
+                    <span>{{ element.googlePlaceId }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -137,14 +161,14 @@ import { ActivityService } from 'src/app/services/activity.service';
 })
 export class ActivitiesComponent implements OnInit {
   locationId!: string;
-  displayedColumns: string[] = ['name', 'category'];
+  displayedColumns: string[] = ['name', 'category', 'deleteActivity'];
   expandedElement: any | null;
   dataSource: any;
 
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private activityService: ActivityService
+    public activityService: ActivityService
   ) {}
 
   ngOnInit(): void {
