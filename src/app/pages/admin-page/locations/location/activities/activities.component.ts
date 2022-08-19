@@ -10,6 +10,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { Subject, takeUntil } from 'rxjs';
 import { ActivityService } from 'src/app/services/activity.service';
 @Component({
   selector: 'app-activities',
@@ -164,6 +165,7 @@ export class ActivitiesComponent implements OnInit {
   displayedColumns: string[] = ['name', 'category', 'deleteActivity'];
   expandedElement: any | null;
   dataSource: any;
+  destroy = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -178,11 +180,19 @@ export class ActivitiesComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(CreateActivityDialog, {
+    const dialogRef = this.dialog.open(CreateActivityDialog, {
       data: {
         locationId: this.locationId,
       },
     });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => {
+        if (result === 'submitted') {
+          this.dataSource = this.activityService.getActivities(this.locationId);
+        }
+      });
   }
 
   openImagePreview(image: string) {
@@ -287,7 +297,7 @@ export class ImagePreview {
         (click)="submitForm()"
         mat-button
         color="primary"
-        mat-dialog-close
+        mat-dialog-close="submitted"
       >
         Create
       </button>
