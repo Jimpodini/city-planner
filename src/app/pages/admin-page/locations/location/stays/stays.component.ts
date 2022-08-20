@@ -21,7 +21,11 @@ import { StayService } from 'src/app/services/stay.service';
           Create stay
         </button>
       </div>
-      <table mat-table [dataSource]="dataSource">
+      <table
+        *ngIf="dataSource | async; else loader"
+        mat-table
+        [dataSource]="dataSource"
+      >
         <ng-container matColumnDef="guestName">
           <th mat-header-cell *matHeaderCellDef class="bg-rose-900">
             Guest name
@@ -48,9 +52,19 @@ import { StayService } from 'src/app/services/stay.service';
           class="last:border-b-rose-900"
         ></tr>
       </table>
+      <ng-template #loader>
+        <mat-spinner class="stays-spinner"></mat-spinner>
+      </ng-template>
     </div>
   `,
-  styles: [],
+  styles: [
+    `
+      ::ng-deep .mat-progress-spinner.stays-spinner circle,
+      .mat-spinner circle {
+        stroke: rgb(136 19 55);
+      }
+    `,
+  ],
 })
 export class StaysComponent implements OnInit {
   locationId!: string;

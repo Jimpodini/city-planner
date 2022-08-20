@@ -125,12 +125,12 @@ import { ActivityService } from 'src/app/services/activity.service';
       </table>
     </div>
     <ng-template #loader>
-      <mat-spinner></mat-spinner>
+      <mat-spinner class="activities-spinner"></mat-spinner>
     </ng-template>
   `,
   styles: [
     `
-      ::ng-deep .mat-progress-spinner circle,
+      ::ng-deep .mat-progress-spinner.activities-spinner circle,
       .mat-spinner circle {
         stroke: rgb(17 94 89);
       }
