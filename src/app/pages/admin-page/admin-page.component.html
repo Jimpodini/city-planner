@@ -1,12 +1,13 @@
 <div
-  class="toolbar fixed left-0 top-0 w-full p-2 bg-slate-600 flex items-center justify-end"
+  class="toolbar fixed left-0 top-0 w-full p-2 bg-white drop-shadow-md flex items-center justify-end z-10"
 >
   <button
     *ngIf="auth.currentUser"
+    mat-raised-button
     (click)="logout()"
-    class="bg-white text-black rounded-md p-1 px-2"
+    class="bg-gradient-to-tr from-violet-500 to-fuchsia-500 text-white"
   >
-    Logout
+    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
   </button>
 </div>
 <div class="content px-2 lg:px-36">
