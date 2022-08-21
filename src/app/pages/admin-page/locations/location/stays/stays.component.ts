@@ -17,7 +17,7 @@ import { StayService } from 'src/app/services/stay.service';
         <button
           (click)="openDialog()"
           mat-raised-button
-          class="bg-rose-900 text-white"
+          class="bg-gradient-to-tr from-pink-600 to-rose-600 text-white"
         >
           Create stay
         </button>
@@ -28,19 +28,19 @@ import { StayService } from 'src/app/services/stay.service';
         [dataSource]="dataSource"
       >
         <ng-container matColumnDef="guestName">
-          <th mat-header-cell *matHeaderCellDef class="bg-rose-900">
+          <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
             Guest name
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.checkInDate }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.guestName }}</td>
         </ng-container>
         <ng-container matColumnDef="checkInDate">
-          <th mat-header-cell *matHeaderCellDef class="bg-rose-900">
+          <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
             Check-in date
           </th>
           <td mat-cell *matCellDef="let element">{{ element.checkInDate }}</td>
         </ng-container>
         <ng-container matColumnDef="checkOutDate">
-          <th mat-header-cell *matHeaderCellDef class="bg-rose-900">
+          <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
             Check-out date
           </th>
           <td mat-cell *matCellDef="let element">{{ element.checkInDate }}</td>
@@ -50,7 +50,7 @@ import { StayService } from 'src/app/services/stay.service';
         <tr
           mat-row
           *matRowDef="let row; columns: displayedColumns"
-          class="last:border-b-rose-900"
+          class="last:border-b-pink-600"
         ></tr>
       </table>
       <ng-template #loader>
@@ -62,7 +62,7 @@ import { StayService } from 'src/app/services/stay.service';
     `
       ::ng-deep .mat-progress-spinner.stays-spinner circle,
       .mat-spinner circle {
-        stroke: rgb(136 19 55);
+        stroke: rgb(219 39 119);
       }
     `,
   ],
