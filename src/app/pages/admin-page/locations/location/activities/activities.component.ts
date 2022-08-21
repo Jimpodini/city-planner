@@ -20,7 +20,7 @@ import { ActivityService } from 'src/app/services/activity.service';
         <button
           (click)="openDialog()"
           mat-raised-button
-          class="bg-teal-800 text-white"
+          class="bg-gradient-to-tr from-red-500 to-orange-500 text-white"
         >
           Create activity
         </button>
@@ -37,19 +37,17 @@ import { ActivityService } from 'src/app/services/activity.service';
         <!-- Position Column -->
         <!-- TODO - loop over displayedColumns -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef class="bg-teal-800">Name</th>
+          <th mat-header-cell *matHeaderCellDef class="bg-red-500">Name</th>
           <td mat-cell *matCellDef="let element">{{ element.name }}</td>
         </ng-container>
 
         <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef class="bg-teal-800">
-            Category
-          </th>
+          <th mat-header-cell *matHeaderCellDef class="bg-red-500">Category</th>
           <td mat-cell *matCellDef="let element">{{ element.category }}</td>
         </ng-container>
 
         <ng-container matColumnDef="deleteActivity">
-          <th mat-header-cell *matHeaderCellDef class="bg-teal-800"></th>
+          <th mat-header-cell *matHeaderCellDef class="bg-red-500"></th>
           <td mat-cell *matCellDef="let element">
             <button
               (click)="
@@ -81,7 +79,7 @@ import { ActivityService } from 'src/app/services/activity.service';
                   <button
                     (click)="openImagePreview(element.image)"
                     mat-raised-button
-                    class="bg-teal-800 text-white"
+                    class="bg-red-500 text-white"
                     style="margin-right: 1rem"
                   >
                     <i class="fa-solid fa-image"></i> Image
@@ -89,7 +87,7 @@ import { ActivityService } from 'src/app/services/activity.service';
                   <button
                     (click)="openImagePreview(element.thumbnail)"
                     mat-raised-button
-                    class="bg-teal-800 text-white"
+                    class="bg-red-500 text-white"
                   >
                     <i class="fa-solid fa-image"></i> Thumbnail
                   </button>
@@ -120,7 +118,7 @@ import { ActivityService } from 'src/app/services/activity.service';
         <tr
           mat-row
           *matRowDef="let element; columns: ['expandedDetail']"
-          class="example-detail-row last:border-b-teal-800"
+          class="example-detail-row last:border-b-red-500"
         ></tr>
       </table>
     </div>
@@ -132,7 +130,7 @@ import { ActivityService } from 'src/app/services/activity.service';
     `
       ::ng-deep .mat-progress-spinner.activities-spinner circle,
       .mat-spinner circle {
-        stroke: rgb(17 94 89);
+        stroke: rgb(239 68 68);
       }
 
       tr.example-detail-row {
