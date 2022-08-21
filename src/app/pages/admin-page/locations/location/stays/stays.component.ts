@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   NonNullableFormBuilder,
@@ -6,6 +6,7 @@ import {
 } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { StayService } from 'src/app/services/stay.service';
 
 @Component({
@@ -66,10 +67,11 @@ import { StayService } from 'src/app/services/stay.service';
     `,
   ],
 })
-export class StaysComponent implements OnInit {
+export class StaysComponent implements OnInit, OnDestroy {
   locationId!: string;
   displayedColumns: string[] = ['guestName', 'checkInDate', 'checkOutDate'];
   dataSource: any;
+  destroy = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -83,11 +85,24 @@ export class StaysComponent implements OnInit {
   }
 
   openDialog() {
-    this.dialog.open(CreateStayDialog, {
+    const dialogRef = this.dialog.open(CreateStayDialog, {
       data: {
         locationId: this.locationId,
       },
     });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => {
+        if (result === 'submitted') {
+          this.dataSource = this.stayService.getStays(this.locationId);
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
   }
 }
 
@@ -157,7 +172,7 @@ export class StaysComponent implements OnInit {
         (click)="submitForm()"
         mat-button
         color="primary"
-        mat-dialog-close
+        mat-dialog-close="submitted"
       >
         Create
       </button>
