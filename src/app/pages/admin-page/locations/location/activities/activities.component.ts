@@ -48,7 +48,7 @@ import { ActivityService } from 'src/app/services/activity.service';
 
         <ng-container matColumnDef="deleteActivity">
           <th mat-header-cell *matHeaderCellDef class="bg-red-500"></th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element" class="text-right">
             <button
               (click)="
                 activityService.deleteActivity(element.locationId, element.id);
