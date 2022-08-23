@@ -23,6 +23,7 @@ import { environment } from 'src/environments/environment';
 
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),
     provideAuth(() => getAuth()),
+    SharedModule,
   ],
   providers: [{ provide: FIREBASE_OPTIONS, useValue: environment.firebase }],
   bootstrap: [AppComponent],

@@ -50,9 +50,8 @@ import { ActivityService } from 'src/app/services/activity.service';
           <th mat-header-cell *matHeaderCellDef class="bg-red-500"></th>
           <td mat-cell *matCellDef="let element" class="text-right">
             <button
-              (click)="
-                activityService.deleteActivity(element.locationId, element.id);
-                $event.stopPropagation()
+              (appConfirm)="
+                activityService.deleteActivity(element.locationId, element.id)
               "
               matTooltip="Delete activity"
               matTooltipPosition="left"

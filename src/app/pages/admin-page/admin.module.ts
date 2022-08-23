@@ -33,6 +33,7 @@ import {
   StaysComponent,
 } from './locations/location/stays/stays.component';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     AdminRoutingModule,
     ReactiveFormsModule,
     MatTableModule,
