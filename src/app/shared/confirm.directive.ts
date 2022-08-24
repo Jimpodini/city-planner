@@ -5,17 +5,25 @@ import {
   HostListener,
   Inject,
   Input,
+  OnDestroy,
   Output,
 } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import { Subject, takeUntil } from 'rxjs';
 
 @Directive({
   selector: '[appConfirm]',
 })
-export class ConfirmDirective {
+export class ConfirmDirective implements OnDestroy {
   @Input() entity = 'entity';
 
   @Output() appConfirm = new EventEmitter<void>();
+
+  destroy = new Subject<void>();
 
   @HostListener('click', ['$event']) onClick(event: PointerEvent) {
     event.stopPropagation();
@@ -25,14 +33,22 @@ export class ConfirmDirective {
       },
     });
 
-    dialogRef.afterClosed().subscribe((val) => {
-      if (val === 'confirm') {
-        this.appConfirm.emit();
-      }
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.appConfirm.emit();
+        }
+      });
   }
 
   constructor(private modal: MatDialog) {}
+
+  ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
+  }
 }
 
 @Component({
@@ -43,7 +59,12 @@ export class ConfirmDirective {
     </div>`,
 })
 export class ConfirmComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<ConfirmComponent>
+  ) {}
 
-  closeConfirmModal(confirmAction: boolean) {}
+  closeConfirmModal(confirmAction: boolean) {
+    this.dialogRef.close(confirmAction);
+  }
 }
