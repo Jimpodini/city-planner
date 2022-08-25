@@ -53,7 +53,7 @@ export class ConfirmDirective implements OnDestroy {
 
 @Component({
   template: `<div>Are you sure you want to delete this {{ data.entity }}?</div>
-    <div>
+    <div class="flex">
       <button mat-raised-button (click)="closeConfirmModal(false)">No</button
       ><button mat-raised-button (click)="closeConfirmModal(true)">Yes</button>
     </div>`,
