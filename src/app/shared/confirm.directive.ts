@@ -52,10 +52,23 @@ export class ConfirmDirective implements OnDestroy {
 }
 
 @Component({
-  template: `<div>Are you sure you want to delete this {{ data.entity }}?</div>
-    <div class="flex">
-      <button mat-raised-button (click)="closeConfirmModal(false)">No</button
-      ><button mat-raised-button (click)="closeConfirmModal(true)">Yes</button>
+  template: `<div class="mb-5">
+      Are you sure you want to delete this {{ data.entity }}?
+    </div>
+    <div class="flex justify-between">
+      <button
+        mat-raised-button
+        (click)="closeConfirmModal(false)"
+        class="bg-gradient-to-tr from-red-700 to-red-900 text-white"
+      >
+        No</button
+      ><button
+        mat-raised-button
+        (click)="closeConfirmModal(true)"
+        class="bg-gradient-to-tr from-green-700 to-green-900 text-white"
+      >
+        Yes
+      </button>
     </div>`,
 })
 export class ConfirmComponent {
