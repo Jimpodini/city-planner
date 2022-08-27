@@ -51,8 +51,10 @@ import { ActivityService } from 'src/app/services/activity.service';
           <td mat-cell *matCellDef="let element" class="text-right">
             <button
               (appConfirm)="
-                activityService.deleteActivity(element.locationId, element.id)
+                activityService.deleteActivity(element.locationId, element.id);
+                dataSource = activityService.getActivities(locationId)
               "
+              entity="activity"
               matTooltip="Delete activity"
               matTooltipPosition="left"
             >
