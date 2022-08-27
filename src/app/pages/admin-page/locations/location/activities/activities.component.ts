@@ -10,7 +10,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { ActivityService } from 'src/app/services/activity.service';
 @Component({
   selector: 'app-activities',
@@ -25,103 +25,110 @@ import { ActivityService } from 'src/app/services/activity.service';
           Create activity
         </button>
       </div>
-      <table
-        *ngIf="dataSource | async; else loader"
-        mat-table
-        multiTemplateDataRows
-        [dataSource]="dataSource"
-      >
-        <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
+      <ng-container *ngIf="dataSource | async as ds; else loader">
+        <table
+          *ngIf="ds.length > 0"
+          mat-table
+          multiTemplateDataRows
+          [dataSource]="dataSource"
+        >
+          <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
 
-        <!-- Position Column -->
-        <!-- TODO - loop over displayedColumns -->
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef class="bg-red-500">Name</th>
-          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-        </ng-container>
+          <!-- Position Column -->
+          <!-- TODO - loop over displayedColumns -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef class="bg-red-500">Name</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef class="bg-red-500">Category</th>
-          <td mat-cell *matCellDef="let element">{{ element.category }}</td>
-        </ng-container>
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef class="bg-red-500">
+              Category
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="deleteActivity">
-          <th mat-header-cell *matHeaderCellDef class="bg-red-500"></th>
-          <td mat-cell *matCellDef="let element" class="text-right">
-            <button
-              (appConfirm)="
-                activityService.deleteActivity(element.locationId, element.id);
-                dataSource = activityService.getActivities(locationId)
-              "
-              entity="activity"
-              matTooltip="Delete activity"
-              matTooltipPosition="left"
+          <ng-container matColumnDef="deleteActivity">
+            <th mat-header-cell *matHeaderCellDef class="bg-red-500"></th>
+            <td mat-cell *matCellDef="let element" class="text-right">
+              <button
+                (appConfirm)="
+                  activityService.deleteActivity(
+                    element.locationId,
+                    element.id
+                  );
+                  dataSource = activityService.getActivities(locationId)
+                "
+                entity="activity"
+                matTooltip="Delete activity"
+                matTooltipPosition="left"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expandedDetail">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [attr.colspan]="displayedColumns.length"
             >
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="expandedDetail">
-          <td
-            mat-cell
-            *matCellDef="let element"
-            [attr.colspan]="displayedColumns.length"
-          >
-            <div
-              class="example-element-detail"
-              [@detailExpand]="
-                element == expandedElement ? 'expanded' : 'collapsed'
-              "
-            >
-              <div class="py-3">
-                <div>
-                  <button
-                    (click)="openImagePreview(element.image)"
-                    mat-raised-button
-                    class="bg-red-500 text-white"
-                    style="margin-right: 1rem"
-                  >
-                    <i class="fa-solid fa-image"></i> Image
-                  </button>
-                  <button
-                    (click)="openImagePreview(element.thumbnail)"
-                    mat-raised-button
-                    class="bg-red-500 text-white"
-                  >
-                    <i class="fa-solid fa-image"></i> Thumbnail
-                  </button>
-                  <div class="mt-2">
-                    <label class="block font-bold">Description</label>
-                    <span>{{ element.description }}</span>
-                  </div>
-                  <div class="mt-2">
-                    <label class="block font-bold">Google Place ID</label>
-                    <span>{{ element.googlePlaceId }}</span>
+              <div
+                class="example-element-detail"
+                [@detailExpand]="
+                  element == expandedElement ? 'expanded' : 'collapsed'
+                "
+              >
+                <div class="py-3">
+                  <div>
+                    <button
+                      (click)="openImagePreview(element.image)"
+                      mat-raised-button
+                      class="bg-red-500 text-white"
+                      style="margin-right: 1rem"
+                    >
+                      <i class="fa-solid fa-image"></i> Image
+                    </button>
+                    <button
+                      (click)="openImagePreview(element.thumbnail)"
+                      mat-raised-button
+                      class="bg-red-500 text-white"
+                    >
+                      <i class="fa-solid fa-image"></i> Thumbnail
+                    </button>
+                    <div class="mt-2">
+                      <label class="block font-bold">Description</label>
+                      <span>{{ element.description }}</span>
+                    </div>
+                    <div class="mt-2">
+                      <label class="block font-bold">Google Place ID</label>
+                      <span>{{ element.googlePlaceId }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </td>
-        </ng-container>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr
-          mat-row
-          *matRowDef="let element; columns: displayedColumns"
-          class="cursor-pointer example-element-row"
-          [class.example-expanded-row]="expandedElement === element"
-          (click)="
-            expandedElement = expandedElement === element ? null : element
-          "
-        ></tr>
-        <tr
-          mat-row
-          *matRowDef="let element; columns: ['expandedDetail']"
-          class="example-detail-row last:border-b-red-500"
-        ></tr>
-      </table>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: displayedColumns"
+            class="cursor-pointer example-element-row"
+            [class.example-expanded-row]="expandedElement === element"
+            (click)="
+              expandedElement = expandedElement === element ? null : element
+            "
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let element; columns: ['expandedDetail']"
+            class="example-detail-row last:border-b-red-500"
+          ></tr>
+        </table>
+      </ng-container>
     </div>
     <ng-template #loader>
       <mat-spinner class="activities-spinner"></mat-spinner>
@@ -163,7 +170,7 @@ export class ActivitiesComponent implements OnInit {
   locationId!: string;
   displayedColumns: string[] = ['name', 'category', 'deleteActivity'];
   expandedElement: any | null;
-  dataSource: any;
+  dataSource!: Observable<any[]>;
   destroy = new Subject<void>();
 
   constructor(
