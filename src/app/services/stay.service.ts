@@ -12,6 +12,7 @@ import {
   query,
   where,
   updateDoc,
+  deleteDoc,
 } from '@angular/fire/firestore';
 import { from, map } from 'rxjs';
 import { AuthService } from '../auth.service';
@@ -54,9 +55,19 @@ export class StayService {
       getDocs(query(this.db, where('locationId', '==', locationId)))
     ).pipe(
       map(
-        (querySnapshot) => querySnapshot.docs.map((doc) => doc.data()) as any[]
+        (querySnapshot) =>
+          querySnapshot.docs.map((doc) => {
+            return {
+              id: doc.id,
+              ...doc.data(),
+            };
+          }) as any[]
       )
     );
+  }
+
+  deleteStay(stayId: string) {
+    return deleteDoc(doc(this.db, stayId));
   }
 
   // TODO: choose better name
