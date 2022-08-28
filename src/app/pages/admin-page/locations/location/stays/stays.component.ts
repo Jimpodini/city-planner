@@ -6,7 +6,7 @@ import {
 } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { StayService } from 'src/app/services/stay.service';
 
 @Component({
@@ -22,37 +22,55 @@ import { StayService } from 'src/app/services/stay.service';
           Create stay
         </button>
       </div>
-      <table
-        *ngIf="dataSource | async; else loader"
-        mat-table
-        [dataSource]="dataSource"
-      >
-        <ng-container matColumnDef="guestName">
-          <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
-            Guest name
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.guestName }}</td>
-        </ng-container>
-        <ng-container matColumnDef="checkInDate">
-          <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
-            Check-in date
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.checkInDate }}</td>
-        </ng-container>
-        <ng-container matColumnDef="checkOutDate">
-          <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
-            Check-out date
-          </th>
-          <td mat-cell *matCellDef="let element">{{ element.checkInDate }}</td>
-        </ng-container>
+      <ng-container *ngIf="dataSource | async as ds; else loader">
+        <table *ngIf="ds.length > 0" mat-table [dataSource]="dataSource">
+          <ng-container matColumnDef="guestName">
+            <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
+              Guest name
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.guestName }}</td>
+          </ng-container>
+          <ng-container matColumnDef="checkInDate">
+            <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
+              Check-in date
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.checkInDate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="checkOutDate">
+            <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
+              Check-out date
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.checkInDate }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="deleteStay">
+            <th mat-header-cell *matHeaderCellDef class="bg-pink-600"></th>
+            <td mat-cell *matCellDef="let element" class="text-right">
+              <button
+                (appConfirm)="
+                  stayService.deleteStay(element.id);
+                  dataSource = stayService.getStays(locationId)
+                "
+                entity="stay"
+                matTooltip="Delete stay"
+                matTooltipPosition="left"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: displayedColumns"
-          class="last:border-b-pink-600"
-        ></tr>
-      </table>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            class="last:border-b-pink-600"
+          ></tr>
+        </table>
+      </ng-container>
       <ng-template #loader>
         <mat-spinner class="stays-spinner"></mat-spinner>
       </ng-template>
@@ -69,19 +87,25 @@ import { StayService } from 'src/app/services/stay.service';
 })
 export class StaysComponent implements OnInit, OnDestroy {
   locationId!: string;
-  displayedColumns: string[] = ['guestName', 'checkInDate', 'checkOutDate'];
-  dataSource: any;
+  displayedColumns: string[] = [
+    'guestName',
+    'checkInDate',
+    'checkOutDate',
+    'deleteStay',
+  ];
+  dataSource!: Observable<any[]>;
   destroy = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private stayService: StayService
+    public stayService: StayService
   ) {}
 
   ngOnInit(): void {
     this.locationId = this.route.snapshot.params['locationId'];
     this.dataSource = this.stayService.getStays(this.locationId);
+    this.stayService.getStays(this.locationId).subscribe(console.log);
   }
 
   openDialog() {
