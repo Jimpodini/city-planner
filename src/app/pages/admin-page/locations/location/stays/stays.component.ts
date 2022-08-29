@@ -67,7 +67,7 @@ import { StayService } from 'src/app/services/stay.service';
           <tr
             mat-row
             *matRowDef="let row; columns: displayedColumns"
-            class="last:border-b-pink-600"
+            class="last:border-b-pink-600 last:border-b-2"
           ></tr>
         </table>
       </ng-container>

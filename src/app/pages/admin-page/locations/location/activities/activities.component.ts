@@ -125,7 +125,7 @@ import { ActivityService } from 'src/app/services/activity.service';
           <tr
             mat-row
             *matRowDef="let element; columns: ['expandedDetail']"
-            class="example-detail-row last:border-b-red-500"
+            class="example-detail-row last:border-b-red-500 last:border-b-2"
           ></tr>
         </table>
       </ng-container>
