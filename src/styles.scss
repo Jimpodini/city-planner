@@ -91,10 +91,19 @@ table.mat-table {
     }
   }
 
-  tbody {
+  &.expandable-table {
     tr {
-      &:nth-child(even) {
-        background-color: rgba(0, 0, 0, 0.02);
+      &:nth-child(5n + 5),
+      &:nth-child(1) {
+        background-color: rgba(0, 0, 0, 0.03);
+      }
+    }
+  }
+
+  &:not(.expandable-table) {
+    tr {
+      &:nth-child(odd) {
+        background-color: rgba(0, 0, 0, 0.03);
       }
       &:hover {
         background-color: rgb(238, 238, 238);

@@ -31,6 +31,7 @@ import { ActivityService } from 'src/app/services/activity.service';
           mat-table
           multiTemplateDataRows
           [dataSource]="dataSource"
+          class="expandable-table"
         >
           <!--- Note that these columns can be defined in any order.
             The actual rendered columns are set as a property on the row definition" -->
