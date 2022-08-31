@@ -43,12 +43,20 @@ import { StayService } from 'src/app/services/stay.service';
               Check-out date
             </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.checkInDate }}
+              {{ element.checkOutDate }}
             </td>
           </ng-container>
           <ng-container matColumnDef="deleteStay">
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600"></th>
             <td mat-cell *matCellDef="let element" class="text-right">
+              <button
+                (click)="openDialog(element)"
+                matTooltip="Edit stay"
+                matTooltipPosition="left"
+                class="mr-4"
+              >
+                <i class="fa-solid fa-pen"></i>
+              </button>
               <button
                 (appConfirm)="
                   stayService.deleteStay(element.id);
@@ -108,9 +116,10 @@ export class StaysComponent implements OnInit, OnDestroy {
     this.stayService.getStays(this.locationId).subscribe(console.log);
   }
 
-  openDialog() {
+  openDialog(stay: any = null) {
     const dialogRef = this.dialog.open(CreateStayDialog, {
       data: {
+        stay,
         locationId: this.locationId,
       },
     });
@@ -132,7 +141,9 @@ export class StaysComponent implements OnInit, OnDestroy {
 
 @Component({
   selector: 'dialog-animations-example-dialog',
-  template: `<span mat-dialog-title>Create stay</span>
+  template: `<span mat-dialog-title>{{
+      data.stay ? 'Edit stay' : 'Create stay'
+    }}</span>
     <div class="dialog-content" mat-dialog-content>
       <form [formGroup]="createStayForm">
         <mat-form-field appearance="fill" class="mb-2">
@@ -153,6 +164,7 @@ export class StaysComponent implements OnInit, OnDestroy {
             (dateChange)="
               convertDateToYYYYMMDD(createStayForm.controls.checkInDate)
             "
+            [disabled]="data.stay"
           />
           <mat-hint>YYYY-MM-DD</mat-hint>
           <mat-error
@@ -175,6 +187,7 @@ export class StaysComponent implements OnInit, OnDestroy {
             (dateChange)="
               convertDateToYYYYMMDD(createStayForm.controls.checkOutDate)
             "
+            [disabled]="data.stay"
           />
           <mat-hint>YYYY-MM-DD</mat-hint>
           <mat-error
@@ -198,7 +211,7 @@ export class StaysComponent implements OnInit, OnDestroy {
         color="primary"
         mat-dialog-close="submitted"
       >
-        Create
+        Save
       </button>
     </div>`,
   styles: [
@@ -219,15 +232,26 @@ export class CreateStayDialog {
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    @Inject(MAT_DIALOG_DATA) private data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private stayService: StayService
   ) {}
 
+  ngOnInit() {
+    this.createStayForm.patchValue(this.data.stay);
+  }
+
   submitForm() {
-    this.stayService.createStay(
-      this.data.locationId,
-      this.createStayForm.value
-    );
+    if (this.data.stay) {
+      this.stayService.editStay({
+        id: this.data.stay.id,
+        ...this.createStayForm.value,
+      });
+    } else {
+      this.stayService.createStay(
+        this.data.locationId,
+        this.createStayForm.value
+      );
+    }
   }
 
   convertDateToYYYYMMDD(formControl: FormControl) {

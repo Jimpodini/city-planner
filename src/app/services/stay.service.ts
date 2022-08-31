@@ -66,6 +66,12 @@ export class StayService {
     );
   }
 
+  editStay(stay: any) {
+    return updateDoc(doc(this.db, stay.id), {
+      guestName: stay.guestName,
+    });
+  }
+
   deleteStay(stayId: string) {
     return deleteDoc(doc(this.db, stayId));
   }
