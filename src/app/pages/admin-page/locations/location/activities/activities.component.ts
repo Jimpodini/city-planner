@@ -272,7 +272,13 @@ export class ImagePreview {
           class="mb-2"
         >
           <mat-label>Image</mat-label>
-          <input matInput value="Select image" class="cursor-pointer" />
+          <input
+            matInput
+            [value]="
+              createActivityForm.controls.image.value ? '✔' : 'Select image'
+            "
+            class="cursor-pointer"
+          />
           <input
             type="file"
             hidden
@@ -287,7 +293,13 @@ export class ImagePreview {
           appearance="fill"
         >
           <mat-label>Thumbnail</mat-label>
-          <input matInput value="Select image" class="cursor-pointer" />
+          <input
+            matInput
+            [value]="
+              createActivityForm.controls.thumbnail.value ? '✔' : 'Select image'
+            "
+            class="cursor-pointer"
+          />
           <input
             type="file"
             hidden
