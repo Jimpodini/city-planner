@@ -64,7 +64,7 @@ import { StayService } from 'src/app/services/stay.service';
                 "
                 entity="stay"
                 matTooltip="Delete stay"
-                matTooltipPosition="left"
+                matTooltipPosition="right"
               >
                 <i class="fa-solid fa-trash"></i>
               </button>
