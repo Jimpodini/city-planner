@@ -52,7 +52,16 @@ import { ActivityService } from 'src/app/services/activity.service';
 
           <ng-container matColumnDef="deleteActivity">
             <th mat-header-cell *matHeaderCellDef class="bg-red-500"></th>
+            <!-- TODO change name of "element" -->
             <td mat-cell *matCellDef="let element" class="text-right">
+              <button
+                (click)="openDialog(element); $event.stopPropagation()"
+                matTooltip="Edit activity"
+                matTooltipPosition="left"
+                class="mr-4"
+              >
+                <i class="fa-solid fa-pen"></i>
+              </button>
               <button
                 (appConfirm)="
                   activityService.deleteActivity(
@@ -63,7 +72,7 @@ import { ActivityService } from 'src/app/services/activity.service';
                 "
                 entity="activity"
                 matTooltip="Delete activity"
-                matTooltipPosition="left"
+                matTooltipPosition="right"
               >
                 <i class="fa-solid fa-trash"></i>
               </button>
@@ -186,9 +195,10 @@ export class ActivitiesComponent implements OnInit {
     this.activityService.getActivities(this.locationId).subscribe(console.log);
   }
 
-  openDialog() {
+  openDialog(activity: any = null) {
     const dialogRef = this.dialog.open(CreateActivityDialog, {
       data: {
+        activity,
         locationId: this.locationId,
       },
     });
@@ -220,7 +230,9 @@ export class ImagePreview {
 
 @Component({
   selector: 'dialog-animations-example-dialog',
-  template: `<span mat-dialog-title>Create activity</span>
+  template: `<span mat-dialog-title>{{
+      data.stay ? 'Edit activity' : 'Create activity'
+    }}</span>
     <div class="dialog-content" mat-dialog-content>
       <form [formGroup]="createActivityForm">
         <mat-form-field appearance="fill" class="mb-2">
@@ -318,7 +330,7 @@ export class ImagePreview {
         color="primary"
         mat-dialog-close="submitted"
       >
-        Create
+        Save
       </button>
     </div>`,
   styles: [
@@ -343,9 +355,13 @@ export class CreateActivityDialog {
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) private data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private activityService: ActivityService
   ) {}
+
+  ngOnInit() {
+    this.createActivityForm.patchValue(this.data.activity);
+  }
 
   openDialog(imageChangedEvent: any, thumbnail = false) {
     const dialogRef = this.dialog.open(ImageUploadDialog, {
@@ -361,16 +377,21 @@ export class CreateActivityDialog {
       } else {
         this.createActivityForm.controls.image.setValue(data.image);
       }
-      console.log(this.createActivityForm.value);
     });
   }
 
   submitForm() {
-    console.log(this.createActivityForm.value);
-    this.activityService.createActivity(
-      this.data.locationId,
-      this.createActivityForm.value
-    );
+    if (this.data.activity) {
+      this.activityService.editActivity(this.data.locationId, {
+        id: this.data.activity.id,
+        ...this.createActivityForm.value,
+      });
+    } else {
+      this.activityService.createActivity(
+        this.data.locationId,
+        this.createActivityForm.value
+      );
+    }
   }
 }
 

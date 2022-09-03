@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import {
   collection,
-  CollectionReference,
-  DocumentData,
   Firestore,
   doc,
-  setDoc,
   addDoc,
   getDocs,
   query,
-  where,
   deleteDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
 import { from, map } from 'rxjs';
 
@@ -34,6 +31,17 @@ export class ActivityService {
 
   createActivity(locationId: string, activity: any) {
     return addDoc(this.getDb(locationId), { ...activity, locationId });
+  }
+
+  editActivity(locationId: string, activity: any) {
+    return updateDoc(doc(this.getDb(locationId), activity.id), {
+      name: activity.name,
+      category: activity.category,
+      googlePlaceId: activity.googlePlaceId,
+      description: activity.description,
+      image: activity.image,
+      thumbnail: activity.thumbnail,
+    });
   }
 
   deleteActivity(locationId: string, activityId: string) {
