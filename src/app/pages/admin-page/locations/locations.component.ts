@@ -17,7 +17,7 @@ export class LocationsComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private locationService: LocationService,
+    public locationService: LocationService,
     private breakpointObserver: BreakpointObserver
   ) {}
 
@@ -30,14 +30,19 @@ export class LocationsComponent implements OnInit {
       .subscribe((res) => {
         console.log(res);
         if (res.matches) {
-          this.displayedColumns = ['address', 'city'];
+          this.displayedColumns = ['address', 'city', 'editOrDeleteLocation'];
         } else {
-          this.displayedColumns = ['id', 'address', 'city'];
+          this.displayedColumns = [
+            'id',
+            'address',
+            'city',
+            'editOrDeleteLocation',
+          ];
         }
       });
   }
 
-  openDialog(): void {
+  openDialog(location: any = null): void {
     const dialogRef = this.dialog.open(CreateLocationDialog);
     dialogRef
       .afterClosed()

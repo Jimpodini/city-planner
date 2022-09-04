@@ -3,6 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import {
   collection,
   CollectionReference,
+  deleteDoc,
   DocumentData,
   Firestore,
   getDoc,
@@ -46,6 +47,10 @@ export class LocationService {
       ...location,
       userId: this.auth.currentUser?.uid,
     });
+  }
+
+  deleteActivity(locationId: string) {
+    return deleteDoc(doc(this.db, locationId));
   }
 }
 
