@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { LocationService } from 'src/app/services/location.service';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Location, LocationService } from 'src/app/services/location.service';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-locations',
@@ -42,8 +42,12 @@ export class LocationsComponent implements OnInit {
       });
   }
 
-  openDialog(location: any = null): void {
-    const dialogRef = this.dialog.open(CreateLocationDialog);
+  openDialog(location?: Location): void {
+    const dialogRef = this.dialog.open(CreateLocationDialog, {
+      data: {
+        location,
+      },
+    });
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.destroy))
@@ -113,14 +117,26 @@ export class CreateLocationDialog {
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    private locationService: LocationService
+    private locationService: LocationService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
+  ngOnInit() {
+    this.createLocationForm.patchValue(this.data.location);
+  }
+
   submitForm() {
-    console.log(this.createLocationForm.value);
-    this.locationService.createLocation({
-      address: this.createLocationForm.controls.address.value,
-      city: this.createLocationForm.controls.city.value,
-    });
+    if (this.data.location) {
+      this.locationService.editLocation({
+        id: this.data.location.id,
+        address: this.createLocationForm.controls.address.value,
+        city: this.createLocationForm.controls.city.value,
+      });
+    } else {
+      this.locationService.createLocation({
+        address: this.createLocationForm.controls.address.value,
+        city: this.createLocationForm.controls.city.value,
+      });
+    }
   }
 }

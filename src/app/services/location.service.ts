@@ -9,6 +9,7 @@ import {
   getDoc,
   getDocs,
   query,
+  updateDoc,
   where,
 } from '@angular/fire/firestore';
 import { setDoc, doc } from '@firebase/firestore';
@@ -46,6 +47,13 @@ export class LocationService {
     return setDoc(doc(this.db), {
       ...location,
       userId: this.auth.currentUser?.uid,
+    });
+  }
+
+  editLocation(location: Location) {
+    return updateDoc(doc(this.db, location.id), {
+      address: location.address,
+      city: location.city,
     });
   }
 
