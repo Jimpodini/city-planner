@@ -27,6 +27,7 @@ import { LocationComponent } from '../admin-page/locations/location/location.com
 import {
   ActivitiesComponent,
   CreateActivityDialog,
+  CreateActivitySetDialog,
   ImageUploadDialog,
 } from './locations/location/activities/activities.component';
 import {
@@ -47,6 +48,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     CreateActivityDialog,
     ImageUploadDialog,
     ActivitiesComponent,
+    CreateActivitySetDialog,
     StaysComponent,
     CreateStayDialog,
   ],

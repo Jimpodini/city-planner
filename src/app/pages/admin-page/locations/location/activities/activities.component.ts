@@ -5,6 +5,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -17,6 +18,15 @@ import { ActivityService } from 'src/app/services/activity.service';
   template: `
     <div class="flex items-center flex-col">
       <div class="w-full flex justify-end mb-2">
+        <div *ngIf="!selection.isEmpty()" class="mr-2">
+          <button
+            (click)="openActivitySetDialog()"
+            mat-raised-button
+            class="bg-gradient-to-tr from-red-500 to-orange-500 text-white"
+          >
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </div>
         <button
           (click)="openDialog()"
           mat-raised-button
@@ -33,11 +43,19 @@ import { ActivityService } from 'src/app/services/activity.service';
           [dataSource]="dataSource"
           class="expandable-table"
         >
-          <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef class="bg-red-500"></th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox
+                (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null"
+                [checked]="selection.isSelected(row)"
+                [aria-label]="checkboxLabel(row)"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
 
-          <!-- Position Column -->
-          <!-- TODO - loop over displayedColumns -->
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef class="bg-red-500">Name</th>
             <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -178,9 +196,10 @@ import { ActivityService } from 'src/app/services/activity.service';
 })
 export class ActivitiesComponent implements OnInit {
   locationId!: string;
-  displayedColumns: string[] = ['name', 'category', 'deleteActivity'];
+  displayedColumns: string[] = ['select', 'name', 'category', 'deleteActivity'];
   expandedElement: any | null;
   dataSource!: Observable<any[]>;
+  selection = new SelectionModel<any>(true, []);
   destroy = new Subject<void>();
 
   constructor(
@@ -212,12 +231,25 @@ export class ActivitiesComponent implements OnInit {
       });
   }
 
+  openActivitySetDialog() {
+    this.dialog.open(CreateActivitySetDialog, {
+      data: {
+        setOfActivities: this.selection,
+      },
+    });
+  }
+
   openImagePreview(image: string) {
     this.dialog.open(ImagePreview, {
       data: {
         image,
       },
     });
+  }
+
+  checkboxLabel(row?: any): string {
+    return '';
+    // return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 }
 
@@ -439,5 +471,65 @@ export class ImageUploadDialog {
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64!;
     console.log(this.croppedImage);
+  }
+}
+
+@Component({
+  template: `<span mat-dialog-title>Create set of activities</span>
+    <div class="dialog-content" mat-dialog-content>
+      <form [formGroup]="createActivitySetForm">
+        <mat-form-field appearance="fill" class="mb-2">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" />
+          <mat-error
+            *ngIf="createActivitySetForm.controls.name.hasError('required')"
+          >
+            Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" />
+        </mat-form-field>
+      </form>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button
+        [disabled]="!createActivitySetForm.valid"
+        (click)="submitForm()"
+        mat-button
+        color="primary"
+        mat-dialog-close="submitted"
+      >
+        Save
+      </button>
+    </div>`,
+  styles: [
+    `
+      .dialog-content form {
+        display: flex;
+        flex-direction: column;
+      }
+    `,
+  ],
+})
+export class CreateActivitySetDialog {
+  createActivitySetForm = this.formBuilder.group({
+    name: ['', Validators.required],
+    description: [''],
+  });
+
+  ngOnInit() {
+    console.log(this.data);
+  }
+
+  constructor(
+    private formBuilder: NonNullableFormBuilder,
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private activityService: ActivityService
+  ) {}
+
+  submitForm() {
+    console.log('submitted!');
   }
 }
