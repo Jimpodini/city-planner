@@ -28,29 +28,29 @@ import { StayService } from 'src/app/services/stay.service';
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
               Guest name
             </th>
-            <td mat-cell *matCellDef="let element">{{ element.guestName }}</td>
+            <td mat-cell *matCellDef="let stay">{{ stay.guestName }}</td>
           </ng-container>
           <ng-container matColumnDef="checkInDate">
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
               Check-in date
             </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.checkInDate }}
+            <td mat-cell *matCellDef="let stay">
+              {{ stay.checkInDate }}
             </td>
           </ng-container>
           <ng-container matColumnDef="checkOutDate">
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
               Check-out date
             </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.checkOutDate }}
+            <td mat-cell *matCellDef="let stay">
+              {{ stay.checkOutDate }}
             </td>
           </ng-container>
           <ng-container matColumnDef="deleteStay">
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600"></th>
-            <td mat-cell *matCellDef="let element" class="text-right">
+            <td mat-cell *matCellDef="let stay" class="text-right">
               <button
-                (click)="openDialog(element)"
+                (click)="openDialog(stay)"
                 matTooltip="Edit stay"
                 matTooltipPosition="left"
                 class="mr-4"
@@ -59,7 +59,7 @@ import { StayService } from 'src/app/services/stay.service';
               </button>
               <button
                 (appConfirm)="
-                  stayService.deleteStay(element.id);
+                  stayService.deleteStay(stay.id);
                   dataSource = stayService.getStays(locationId)
                 "
                 entity="stay"
