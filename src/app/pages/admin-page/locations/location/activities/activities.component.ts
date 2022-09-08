@@ -58,22 +58,21 @@ import { ActivityService } from 'src/app/services/activity.service';
 
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef class="bg-red-500">Name</th>
-            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            <td mat-cell *matCellDef="let activity">{{ activity.name }}</td>
           </ng-container>
 
           <ng-container matColumnDef="category">
             <th mat-header-cell *matHeaderCellDef class="bg-red-500">
               Category
             </th>
-            <td mat-cell *matCellDef="let element">{{ element.category }}</td>
+            <td mat-cell *matCellDef="let activity">{{ activity.category }}</td>
           </ng-container>
 
           <ng-container matColumnDef="deleteActivity">
             <th mat-header-cell *matHeaderCellDef class="bg-red-500"></th>
-            <!-- TODO change name of "element" -->
-            <td mat-cell *matCellDef="let element" class="text-right">
+            <td mat-cell *matCellDef="let activity" class="text-right">
               <button
-                (click)="openDialog(element); $event.stopPropagation()"
+                (click)="openDialog(activity); $event.stopPropagation()"
                 matTooltip="Edit activity"
                 matTooltipPosition="left"
                 class="mr-4"
@@ -83,8 +82,8 @@ import { ActivityService } from 'src/app/services/activity.service';
               <button
                 (appConfirm)="
                   activityService.deleteActivity(
-                    element.locationId,
-                    element.id
+                    activity.locationId,
+                    activity.id
                   );
                   dataSource = activityService.getActivities(locationId)
                 "
@@ -100,19 +99,19 @@ import { ActivityService } from 'src/app/services/activity.service';
           <ng-container matColumnDef="expandedDetail">
             <td
               mat-cell
-              *matCellDef="let element"
+              *matCellDef="let activity"
               [attr.colspan]="displayedColumns.length"
             >
               <div
-                class="example-element-detail"
+                class="example-activity-detail"
                 [@detailExpand]="
-                  element == expandedElement ? 'expanded' : 'collapsed'
+                  activity == expandedActivity ? 'expanded' : 'collapsed'
                 "
               >
                 <div class="py-3">
                   <div>
                     <button
-                      (click)="openImagePreview(element.image)"
+                      (click)="openImagePreview(activity.image)"
                       mat-raised-button
                       class="bg-red-500 text-white"
                       style="margin-right: 1rem"
@@ -120,7 +119,7 @@ import { ActivityService } from 'src/app/services/activity.service';
                       <i class="fa-solid fa-image"></i> Image
                     </button>
                     <button
-                      (click)="openImagePreview(element.thumbnail)"
+                      (click)="openImagePreview(activity.thumbnail)"
                       mat-raised-button
                       class="bg-red-500 text-white"
                     >
@@ -128,11 +127,11 @@ import { ActivityService } from 'src/app/services/activity.service';
                     </button>
                     <div class="mt-2">
                       <label class="block font-bold">Description</label>
-                      <span>{{ element.description }}</span>
+                      <span>{{ activity.description }}</span>
                     </div>
                     <div class="mt-2">
                       <label class="block font-bold">Google Place ID</label>
-                      <span>{{ element.googlePlaceId }}</span>
+                      <span>{{ activity.googlePlaceId }}</span>
                     </div>
                   </div>
                 </div>
@@ -143,16 +142,16 @@ import { ActivityService } from 'src/app/services/activity.service';
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr
             mat-row
-            *matRowDef="let element; columns: displayedColumns"
-            class="cursor-pointer example-element-row"
-            [class.example-expanded-row]="expandedElement === element"
+            *matRowDef="let activity; columns: displayedColumns"
+            class="cursor-pointer example-activity-row"
+            [class.example-expanded-row]="expandedActivity === activity"
             (click)="
-              expandedElement = expandedElement === element ? null : element
+              expandedActivity = expandedActivity === activity ? null : activity
             "
           ></tr>
           <tr
             mat-row
-            *matRowDef="let element; columns: ['expandedDetail']"
+            *matRowDef="let activity; columns: ['expandedDetail']"
             class="example-detail-row last:border-b-red-500 last:border-b-2"
           ></tr>
         </table>
@@ -173,11 +172,11 @@ import { ActivityService } from 'src/app/services/activity.service';
         height: 0;
       }
 
-      .example-element-row td {
+      .example-activity-row td {
         border-bottom-width: 0;
       }
 
-      .example-element-detail {
+      .example-activity-detail {
         overflow: hidden;
         display: flex;
       }
@@ -197,7 +196,7 @@ import { ActivityService } from 'src/app/services/activity.service';
 export class ActivitiesComponent implements OnInit {
   locationId!: string;
   displayedColumns: string[] = ['select', 'name', 'category', 'deleteActivity'];
-  expandedElement: any | null;
+  expandedActivity: any | null;
   dataSource!: Observable<any[]>;
   selection = new SelectionModel<any>(true, []);
   destroy = new Subject<void>();
