@@ -20,7 +20,7 @@ export class ActivityService {
   constructor(private firestore: Firestore) {}
 
   getActivities(locationId: string) {
-    return from(getDocs(query(this.getDb(locationId)))).pipe(
+    return from(getDocs(query(this.getDb(locationId, 'activities')))).pipe(
       map((querySnapshot) =>
         querySnapshot.docs.map((doc) => {
           return { id: doc.id, ...doc.data() };
@@ -30,11 +30,21 @@ export class ActivityService {
   }
 
   createActivity(locationId: string, activity: any) {
-    return addDoc(this.getDb(locationId), { ...activity, locationId });
+    return addDoc(this.getDb(locationId, 'activities'), {
+      ...activity,
+      locationId,
+    });
+  }
+
+  createSetOfActivities(locationId: string, setOfActivities: any) {
+    return addDoc(this.getDb(locationId, 'setOfActivities'), {
+      ...setOfActivities,
+      locationId,
+    });
   }
 
   editActivity(locationId: string, activity: any) {
-    return updateDoc(doc(this.getDb(locationId), activity.id), {
+    return updateDoc(doc(this.getDb(locationId, 'activities'), activity.id), {
       name: activity.name,
       category: activity.category,
       googlePlaceId: activity.googlePlaceId,
@@ -45,10 +55,10 @@ export class ActivityService {
   }
 
   deleteActivity(locationId: string, activityId: string) {
-    return deleteDoc(doc(this.getDb(locationId), activityId));
+    return deleteDoc(doc(this.getDb(locationId, 'activities'), activityId));
   }
 
-  private getDb(locationId: string) {
-    return collection(this.firestore, `locations/${locationId}/activities`);
+  private getDb(locationId: string, category: string) {
+    return collection(this.firestore, `locations/${locationId}/${category}`);
   }
 }
