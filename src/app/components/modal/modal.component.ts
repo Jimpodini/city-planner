@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
-// TODO and remove static activities (or keep as demo data)
-import { ACTIVITIES } from 'src/app/activities';
 import { AuthService } from 'src/app/auth.service';
 import { ActivityService } from 'src/app/services/activity.service';
 import { StayService } from 'src/app/services/stay.service';
