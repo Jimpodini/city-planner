@@ -234,6 +234,7 @@ export class ActivitiesComponent implements OnInit {
     this.dialog.open(CreateActivitySetDialog, {
       data: {
         setOfActivities: this.selection,
+        locationId: this.locationId,
       },
     });
   }
@@ -519,7 +520,7 @@ export class CreateActivitySetDialog {
   });
 
   ngOnInit() {
-    console.log(this.data);
+    console.log(this.data.setOfActivities.selected);
   }
 
   constructor(
@@ -530,5 +531,9 @@ export class CreateActivitySetDialog {
 
   submitForm() {
     console.log('submitted!');
+    this.activityService.createSetOfActivities(
+      this.data.locationId,
+      this.data.setOfActivities.selected
+    );
   }
 }
