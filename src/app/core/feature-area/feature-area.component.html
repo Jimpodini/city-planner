@@ -1,5 +1,8 @@
 <div class="p-4">
-  <h1>Welcome to Stockholm NAME</h1>
+  <h1>
+    Welcome to {{ authService.authObject?.homeCity }}
+    {{ authService.authObject?.guestName }}
+  </h1>
   <h2 class="max-w-md">
     This is a tool for planning your activities during your stay. The list of
     activities to choose from is a curated list by your host.

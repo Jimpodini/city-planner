@@ -66,6 +66,7 @@ export type AuthObject = {
   doorCode: string;
   homeAddress: string;
   homeCity: string;
+  guestName: string;
   activitiesPerDate: {
     [key: string]: { activities: any[]; googleDirectionLink: string };
   };
