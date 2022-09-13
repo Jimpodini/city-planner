@@ -74,8 +74,9 @@ import { StayService } from 'src/app/services/stay.service';
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr
             mat-row
-            *matRowDef="let row; columns: displayedColumns"
-            class="last:border-b-pink-600 last:border-b-2"
+            *matRowDef="let stay; columns: displayedColumns"
+            (click)="navigateToStay(stay.id)"
+            class="last:border-b-pink-600 last:border-b-2 cursor-pointer"
           ></tr>
         </table>
       </ng-container>
@@ -131,6 +132,10 @@ export class StaysComponent implements OnInit, OnDestroy {
           this.dataSource = this.stayService.getStays(this.locationId);
         }
       });
+  }
+
+  navigateToStay(stayId: string) {
+    window.open(stayId, '_blank')?.focus();
   }
 
   ngOnDestroy(): void {
