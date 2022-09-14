@@ -231,9 +231,9 @@ export class ActivitiesComponent implements OnInit {
   }
 
   openActivitySetDialog() {
-    this.dialog.open(CreateActivitySetDialog, {
+    this.dialog.open(CreateSetOfActivitiesDialog, {
       data: {
-        setOfActivities: this.selection,
+        setOfActivities: this.selection.selected.map((activity) => activity.id),
         locationId: this.locationId,
       },
     });
@@ -513,14 +513,14 @@ export class ImageUploadDialog {
     `,
   ],
 })
-export class CreateActivitySetDialog {
+export class CreateSetOfActivitiesDialog {
   createActivitySetForm = this.formBuilder.group({
     name: ['', Validators.required],
     description: [''],
   });
 
   ngOnInit() {
-    console.log(this.data.setOfActivities.selected);
+    console.log(this.data.setOfActivities);
   }
 
   constructor(
@@ -533,7 +533,7 @@ export class CreateActivitySetDialog {
     console.log('submitted!');
     this.activityService.createSetOfActivities(
       this.data.locationId,
-      this.data.setOfActivities.selected
+      this.data.setOfActivities
     );
   }
 }
