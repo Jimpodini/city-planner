@@ -233,7 +233,7 @@ export class ActivitiesComponent implements OnInit {
   openActivitySetDialog() {
     this.dialog.open(CreateSetOfActivitiesDialog, {
       data: {
-        setOfActivities: this.selection.selected.map((activity) => activity.id),
+        setOfActivities: this.selection.selected,
         locationId: this.locationId,
       },
     });
@@ -531,9 +531,10 @@ export class CreateSetOfActivitiesDialog {
 
   submitForm() {
     console.log('submitted!');
-    this.activityService.createSetOfActivities(
-      this.data.locationId,
-      this.data.setOfActivities
-    );
+    this.activityService.createSetOfActivities(this.data.locationId, {
+      name: this.createActivitySetForm.controls.name.value,
+      description: this.createActivitySetForm.controls.description.value,
+      activities: this.data.setOfActivities.map((activity: any) => activity.id),
+    });
   }
 }
