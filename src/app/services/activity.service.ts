@@ -36,13 +36,6 @@ export class ActivityService {
     });
   }
 
-  createSetOfActivities(locationId: string, setOfActivities: any) {
-    return addDoc(this.getDb(locationId, 'setOfActivities'), {
-      ...setOfActivities,
-      locationId,
-    });
-  }
-
   editActivity(locationId: string, activity: any) {
     return updateDoc(doc(this.getDb(locationId, 'activities'), activity.id), {
       name: activity.name,
@@ -56,6 +49,23 @@ export class ActivityService {
 
   deleteActivity(locationId: string, activityId: string) {
     return deleteDoc(doc(this.getDb(locationId, 'activities'), activityId));
+  }
+
+  getSetOfActivities(locationId: string) {
+    return from(getDocs(query(this.getDb(locationId, 'setOfActivities')))).pipe(
+      map((querySnapshot) =>
+        querySnapshot.docs.map((doc) => {
+          return { id: doc.id, ...doc.data() };
+        })
+      )
+    );
+  }
+
+  createSetOfActivities(locationId: string, setOfActivities: any) {
+    return addDoc(this.getDb(locationId, 'setOfActivities'), {
+      ...setOfActivities,
+      locationId,
+    });
   }
 
   private getDb(locationId: string, category: string) {

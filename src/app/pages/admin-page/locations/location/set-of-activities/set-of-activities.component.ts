@@ -152,11 +152,7 @@ export class SetOfActivitiesComponent implements OnInit {
   locationId!: string;
   displayedColumns: string[] = ['name'];
   expandedActivity: any | null;
-  dataSource = of([
-    {
-      name: 'test',
-    },
-  ]);
+  dataSource!: Observable<any[]>;
   selection = new SelectionModel<any>(true, []);
   destroy = new Subject<void>();
 
@@ -166,5 +162,11 @@ export class SetOfActivitiesComponent implements OnInit {
     public activityService: ActivityService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.dataSource = this.activityService.getActivities(this.locationId);
+    this.locationId = this.route.snapshot.params['locationId'];
+    this.activityService
+      .getSetOfActivities(this.locationId)
+      .subscribe(console.warn);
+  }
 }
