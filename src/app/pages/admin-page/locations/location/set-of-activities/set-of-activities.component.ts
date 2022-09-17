@@ -6,12 +6,9 @@ import {
   trigger,
 } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { Observable, of, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ActivityService } from 'src/app/services/activity.service';
 @Component({
   selector: 'app-set-of-activities',
@@ -32,37 +29,12 @@ import { ActivityService } from 'src/app/services/activity.service';
             <td mat-cell *matCellDef="let activity">{{ activity.name }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="category">
+          <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef class="bg-orange-500">
-              Category
+              Description
             </th>
-            <td mat-cell *matCellDef="let activity">{{ activity.category }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="deleteActivity">
-            <th mat-header-cell *matHeaderCellDef class="bg-orange-500"></th>
-            <td mat-cell *matCellDef="let activity" class="text-right">
-              <button
-                (click)="$event.stopPropagation()"
-                matTooltip="Edit activity"
-                matTooltipPosition="left"
-                class="mr-4"
-              >
-                <i class="fa-solid fa-pen"></i>
-              </button>
-              <button
-                (appConfirm)="
-                  activityService.deleteActivity(
-                    activity.locationId,
-                    activity.id
-                  )
-                "
-                entity="activity"
-                matTooltip="Delete activity"
-                matTooltipPosition="right"
-              >
-                <i class="fa-solid fa-trash"></i>
-              </button>
+            <td mat-cell *matCellDef="let activity">
+              {{ activity.description }}
             </td>
           </ng-container>
 
@@ -78,18 +50,7 @@ import { ActivityService } from 'src/app/services/activity.service';
                   activity == expandedActivity ? 'expanded' : 'collapsed'
                 "
               >
-                <div class="py-3">
-                  <div>
-                    <div class="mt-2">
-                      <label class="block font-bold">Description</label>
-                      <span>{{ activity.description }}</span>
-                    </div>
-                    <div class="mt-2">
-                      <label class="block font-bold">Google Place ID</label>
-                      <span>{{ activity.googlePlaceId }}</span>
-                    </div>
-                  </div>
-                </div>
+                <div>test</div>
               </div>
             </td>
           </ng-container>
@@ -150,7 +111,7 @@ import { ActivityService } from 'src/app/services/activity.service';
 })
 export class SetOfActivitiesComponent implements OnInit {
   locationId!: string;
-  displayedColumns: string[] = ['name'];
+  displayedColumns: string[] = ['name', 'description'];
   expandedActivity: any | null;
   dataSource!: Observable<any[]>;
   selection = new SelectionModel<any>(true, []);
@@ -158,15 +119,11 @@ export class SetOfActivitiesComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private dialog: MatDialog,
     public activityService: ActivityService
   ) {}
 
   ngOnInit(): void {
-    this.dataSource = this.activityService.getActivities(this.locationId);
     this.locationId = this.route.snapshot.params['locationId'];
-    this.activityService
-      .getSetOfActivities(this.locationId)
-      .subscribe(console.warn);
+    this.dataSource = this.activityService.getSetOfActivities(this.locationId);
   }
 }
