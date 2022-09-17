@@ -9,7 +9,7 @@ import {
   deleteDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { from, map } from 'rxjs';
+import { from, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,8 @@ export class ActivityService {
         querySnapshot.docs.map((doc) => {
           return { id: doc.id, ...doc.data() };
         })
-      )
+      ),
+      tap((activities) => (this.activities = activities))
     );
   }
 
