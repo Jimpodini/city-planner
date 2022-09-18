@@ -69,6 +69,17 @@ export class ActivityService {
     });
   }
 
+  editSetOfActivities(locationId: string, setOfActivities: any) {
+    return updateDoc(
+      doc(this.getDb(locationId, 'setOfActivities'), setOfActivities.id),
+      {
+        name: setOfActivities.name,
+        description: setOfActivities.description,
+        activities: setOfActivities.activities,
+      }
+    );
+  }
+
   private getDb(locationId: string, category: string) {
     return collection(this.firestore, `locations/${locationId}/${category}`);
   }
