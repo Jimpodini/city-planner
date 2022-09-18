@@ -41,16 +41,18 @@ import { ActivityService } from 'src/app/services/activity.service';
           <ng-container matColumnDef="expandedDetail">
             <td
               mat-cell
-              *matCellDef="let activity"
+              *matCellDef="let setOfActivities"
               [attr.colspan]="displayedColumns.length"
             >
               <div
-                class="example-activity-detail"
+                class="example-activity-detail overflow-hidden flex flex-col"
                 [@detailExpand]="
-                  activity == expandedActivity ? 'expanded' : 'collapsed'
+                  setOfActivities == expandedActivity ? 'expanded' : 'collapsed'
                 "
               >
-                <div>test</div>
+                <div *ngFor="let activityId of setOfActivities.activities">
+                  {{ getActivityName(activityId) }}
+                </div>
               </div>
             </td>
           </ng-container>
@@ -91,11 +93,6 @@ import { ActivityService } from 'src/app/services/activity.service';
       .example-activity-row td {
         border-bottom-width: 0;
       }
-
-      .example-activity-detail {
-        overflow: hidden;
-        display: flex;
-      }
     `,
   ],
   animations: [
@@ -125,5 +122,11 @@ export class SetOfActivitiesComponent implements OnInit {
   ngOnInit(): void {
     this.locationId = this.route.snapshot.params['locationId'];
     this.dataSource = this.activityService.getSetOfActivities(this.locationId);
+  }
+
+  getActivityName(activityId: string): string {
+    return this.activityService.activities.find(
+      (activity) => activity.id === activityId
+    )?.name;
   }
 }
