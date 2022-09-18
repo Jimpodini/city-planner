@@ -6,6 +6,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
@@ -50,8 +51,21 @@ import { ActivityService } from 'src/app/services/activity.service';
                   setOfActivities == expandedActivity ? 'expanded' : 'collapsed'
                 "
               >
-                <div *ngFor="let activityId of setOfActivities.activities">
-                  {{ getActivityName(activityId) }}
+                <div
+                  cdkDropList
+                  cdkDropListOrientation="vertical"
+                  class="drag-and-drop-container"
+                  (cdkDropListDropped)="drop($event, setOfActivities)"
+                >
+                  <div
+                    *ngFor="let activityId of setOfActivities.activities"
+                    class="bg-orange-100 p-4 max-w-md mb-2 rounded-sm cursor-move"
+                    cdkDrag
+                    cdkDragLockAxis="y"
+                    cdkDragBoundary=".drag-and-drop-container"
+                  >
+                    {{ getActivityName(activityId) }}
+                  </div>
                 </div>
               </div>
             </td>
@@ -93,6 +107,26 @@ import { ActivityService } from 'src/app/services/activity.service';
       .example-activity-row td {
         border-bottom-width: 0;
       }
+
+      .drag-and-drop-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .cdk-drag-preview {
+        box-sizing: border-box;
+        border-radius: 4px;
+        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+          0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+      }
+
+      .cdk-drag-placeholder {
+        opacity: 0.2;
+      }
+
+      .cdk-drag-animating {
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+      }
     `,
   ],
   animations: [
@@ -128,5 +162,14 @@ export class SetOfActivitiesComponent implements OnInit {
     return this.activityService.activities.find(
       (activity) => activity.id === activityId
     )?.name;
+  }
+
+  drop(event: CdkDragDrop<string[]>, setOfActivities: any) {
+    moveItemInArray(
+      setOfActivities.activities,
+      event.previousIndex,
+      event.currentIndex
+    );
+    this.activityService.editSetOfActivities(this.locationId, setOfActivities);
   }
 }

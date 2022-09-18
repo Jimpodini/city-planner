@@ -12,6 +12,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { ImageCropperModule } from 'ngx-image-cropper';
 
@@ -70,6 +71,7 @@ import { SetOfActivitiesComponent } from './locations/location/set-of-activities
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatCheckboxModule,
+    DragDropModule,
     ImageCropperModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'sv-SE' }],
