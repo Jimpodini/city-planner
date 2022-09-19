@@ -32,7 +32,7 @@ import { StayService } from 'src/app/services/stay.service';
           </ng-container>
           <ng-container matColumnDef="checkInDate">
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
-              Check-in date
+              Check-in
             </th>
             <td mat-cell *matCellDef="let stay">
               {{ stay.checkInDate }}
@@ -40,7 +40,7 @@ import { StayService } from 'src/app/services/stay.service';
           </ng-container>
           <ng-container matColumnDef="checkOutDate">
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
-              Check-out date
+              Check-out
             </th>
             <td mat-cell *matCellDef="let stay">
               {{ stay.checkOutDate }}
@@ -50,7 +50,15 @@ import { StayService } from 'src/app/services/stay.service';
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600"></th>
             <td mat-cell *matCellDef="let stay" class="text-right">
               <button
-                (click)="openDialog(stay)"
+                (click)="openDialog(stay); $event.stopPropagation()"
+                matTooltip="Share stay"
+                matTooltipPosition="left"
+                class="mr-4"
+              >
+                <i class="fa-solid fa-share-nodes"></i>
+              </button>
+              <button
+                (click)="openDialog(stay); $event.stopPropagation()"
                 matTooltip="Edit stay"
                 matTooltipPosition="left"
                 class="mr-4"
