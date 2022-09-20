@@ -59,7 +59,7 @@ import { ActivityService } from 'src/app/services/activity.service';
                 >
                   <div
                     *ngFor="let activityId of setOfActivities.activities"
-                    class="bg-orange-100 p-4 max-w-md mb-2 rounded-sm cursor-move"
+                    class="bg-orange-100 p-4 max-w-md my-2 rounded-sm cursor-move"
                     cdkDrag
                     cdkDragLockAxis="y"
                     cdkDragBoundary=".drag-and-drop-container"
