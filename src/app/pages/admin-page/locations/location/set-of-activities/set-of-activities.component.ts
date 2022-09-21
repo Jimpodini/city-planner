@@ -25,18 +25,9 @@ import { ActivityService } from 'src/app/services/activity.service';
         >
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef class="bg-orange-500">
-              Name
+              Set of activities
             </th>
             <td mat-cell *matCellDef="let activity">{{ activity.name }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="description">
-            <th mat-header-cell *matHeaderCellDef class="bg-orange-500">
-              Description
-            </th>
-            <td mat-cell *matCellDef="let activity">
-              {{ activity.description }}
-            </td>
           </ng-container>
 
           <ng-container matColumnDef="expandedDetail">
@@ -51,6 +42,8 @@ import { ActivityService } from 'src/app/services/activity.service';
                   setOfActivities == expandedActivity ? 'expanded' : 'collapsed'
                 "
               >
+                <label class="block font-bold mt-2">Description</label>
+                <span>{{ setOfActivities.description }}</span>
                 <div
                   cdkDropList
                   cdkDropListOrientation="vertical"
@@ -142,7 +135,7 @@ import { ActivityService } from 'src/app/services/activity.service';
 })
 export class SetOfActivitiesComponent implements OnInit {
   locationId!: string;
-  displayedColumns: string[] = ['name', 'description'];
+  displayedColumns: string[] = ['name'];
   expandedActivity: any | null;
   dataSource!: Observable<any[]>;
   selection = new SelectionModel<any>(true, []);
