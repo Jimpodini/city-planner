@@ -149,6 +149,13 @@ export class SetOfActivitiesComponent implements OnInit {
   ngOnInit(): void {
     this.locationId = this.route.snapshot.params['locationId'];
     this.dataSource = this.activityService.getSetOfActivities(this.locationId);
+    // TODO unsubscribe
+    this.activityService.reloadActivitiesData.subscribe(
+      () =>
+        (this.dataSource = this.activityService.getSetOfActivities(
+          this.locationId
+        ))
+    );
   }
 
   getActivityName(activityId: string): string {

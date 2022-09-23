@@ -531,10 +531,14 @@ export class CreateSetOfActivitiesDialog {
 
   submitForm() {
     console.log('submitted!');
-    this.activityService.createSetOfActivities(this.data.locationId, {
-      name: this.createActivitySetForm.controls.name.value,
-      description: this.createActivitySetForm.controls.description.value,
-      activities: this.data.setOfActivities.map((activity: any) => activity.id),
-    });
+    this.activityService
+      .createSetOfActivities(this.data.locationId, {
+        name: this.createActivitySetForm.controls.name.value,
+        description: this.createActivitySetForm.controls.description.value,
+        activities: this.data.setOfActivities.map(
+          (activity: any) => activity.id
+        ),
+      })
+      .then(() => this.activityService.reloadActivitiesData.next());
   }
 }

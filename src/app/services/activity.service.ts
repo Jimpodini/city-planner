@@ -9,12 +9,13 @@ import {
   deleteDoc,
   updateDoc,
 } from '@angular/fire/firestore';
-import { from, map, tap } from 'rxjs';
+import { from, map, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActivityService {
+  reloadActivitiesData = new Subject<void>();
   activities: any[] = [];
 
   constructor(private firestore: Firestore) {}
