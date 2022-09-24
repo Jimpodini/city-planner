@@ -81,6 +81,12 @@ export class ActivityService {
     );
   }
 
+  deleteSetOfActivities(locationId: string, setOfActivitiesId: string) {
+    return deleteDoc(
+      doc(this.getDb(locationId, 'setOfActivities'), setOfActivitiesId)
+    );
+  }
+
   private getDb(locationId: string, category: string) {
     return collection(this.firestore, `locations/${locationId}/${category}`);
   }

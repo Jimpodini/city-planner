@@ -30,6 +30,26 @@ import { ActivityService } from 'src/app/services/activity.service';
             <td mat-cell *matCellDef="let activity">{{ activity.name }}</td>
           </ng-container>
 
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="bg-orange-500"></th>
+            <td mat-cell *matCellDef="let activity" class="text-right">
+              <button
+                (appConfirm)="
+                  activityService.deleteSetOfActivities(
+                    activity.locationId,
+                    activity.id
+                  );
+                  dataSource = activityService.getSetOfActivities(locationId)
+                "
+                entity="set of activities"
+                matTooltip="Delete set of activities"
+                matTooltipPosition="right"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="expandedDetail">
             <td
               mat-cell
@@ -135,7 +155,7 @@ import { ActivityService } from 'src/app/services/activity.service';
 })
 export class SetOfActivitiesComponent implements OnInit {
   locationId!: string;
-  displayedColumns: string[] = ['name'];
+  displayedColumns: string[] = ['name', 'actions'];
   expandedActivity: any | null;
   dataSource!: Observable<any[]>;
   selection = new SelectionModel<any>(true, []);
