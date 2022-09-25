@@ -90,24 +90,28 @@ export class ActivityService {
 
   // TODO write tests and refactor
   // TODO fix so that homeAddress and homeCity can contain more than one space
-  getGoogleUrl(date: string, authObject: AuthObject): string {
+  getGoogleUrl(
+    activities: any[],
+    homeCity: string,
+    homeAddress: string
+  ): string {
     let baseString = 'https://www.google.com/maps/dir/?api=1';
-    let waypointsString = Array.from(
-      Array(authObject.activitiesPerDate[date].activities.length).keys()
-    ).join('%7C');
+    let waypointsString = Array.from(Array(activities.length).keys()).join(
+      '%7C'
+    );
     console.log(waypointsString);
 
     let waypointPlaceIds: any[] = [];
-    authObject.activitiesPerDate[date].activities.forEach((activity) => {
+    activities.forEach((activity) => {
       waypointPlaceIds.push(activity.googlePlaceId);
     });
 
     let waypointPlaceIdsString = waypointPlaceIds.join('%7C');
 
-    let fullUrl = `${baseString}&waypoints=${waypointsString}&waypoint_place_ids=${waypointPlaceIdsString}&destination=${authObject.homeAddress.replace(
+    let fullUrl = `${baseString}&waypoints=${waypointsString}&waypoint_place_ids=${waypointPlaceIdsString}&destination=${homeAddress.replace(
       ' ',
       '+'
-    )}+${authObject.homeCity.replace(' ', '+')}`;
+    )}+${homeCity.replace(' ', '+')}`;
     return fullUrl;
   }
 

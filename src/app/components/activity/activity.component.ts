@@ -38,8 +38,9 @@ export class ActivityComponent implements OnInit {
     this.authService.authObject.activitiesPerDate[
       this.date
     ].googleDirectionLink = this.activityService.getGoogleUrl(
-      this.date,
-      this.authService.authObject
+      this.authService.authObject.activitiesPerDate[this.date].activities,
+      this.authService.authObject.homeCity,
+      this.authService.authObject.homeAddress
     );
 
     this.stayService.saveStay();
