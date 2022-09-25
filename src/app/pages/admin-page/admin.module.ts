@@ -28,7 +28,6 @@ import { LocationComponent } from '../admin-page/locations/location/location.com
 import {
   ActivitiesComponent,
   CreateActivityDialog,
-  CreateSetOfActivitiesDialog,
   ImageUploadDialog,
 } from './locations/location/activities/activities.component';
 import {
@@ -38,6 +37,7 @@ import {
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SetOfActivitiesComponent } from './locations/location/set-of-activities/set-of-activities.component';
+import { SetOfActivitiesDialogComponent } from './locations/location/set-of-activities/set-of-activities-dialog/set-of-activities-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,10 +50,10 @@ import { SetOfActivitiesComponent } from './locations/location/set-of-activities
     CreateActivityDialog,
     ImageUploadDialog,
     ActivitiesComponent,
-    CreateSetOfActivitiesDialog,
     StaysComponent,
     CreateStayDialog,
     SetOfActivitiesComponent,
+    SetOfActivitiesDialogComponent,
   ],
   imports: [
     CommonModule,
