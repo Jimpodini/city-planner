@@ -19,29 +19,6 @@ export class AuthService {
     );
   }
 
-  // TODO write tests and refactor
-  // TODO fix so that homeAddress and homeCity can contain more than one space
-  getGoogleUrl(date: string): string {
-    let baseString = 'https://www.google.com/maps/dir/?api=1';
-    let waypointsString = Array.from(
-      Array(this.authObject.activitiesPerDate[date].activities.length).keys()
-    ).join('%7C');
-    console.log(waypointsString);
-
-    let waypointPlaceIds: any[] = [];
-    this.authObject.activitiesPerDate[date].activities.forEach((activity) => {
-      waypointPlaceIds.push(activity.googlePlaceId);
-    });
-
-    let waypointPlaceIdsString = waypointPlaceIds.join('%7C');
-
-    let fullUrl = `${baseString}&waypoints=${waypointsString}&waypoint_place_ids=${waypointPlaceIdsString}&destination=${this.authObject.homeAddress.replace(
-      ' ',
-      '+'
-    )}+${this.authObject.homeCity.replace(' ', '+')}`;
-    return fullUrl;
-  }
-
   private getDatesInRange(startDate: string, endDate: string): string[] {
     const d1 = new Date(startDate);
     const d2 = new Date(endDate);

@@ -43,8 +43,9 @@ export class ModalComponent implements OnInit {
     ].activities.push(activity);
     this.authService.authObject.activitiesPerDate[
       this.modalService.date
-    ].googleDirectionLink = this.authService.getGoogleUrl(
-      this.modalService.date
+    ].googleDirectionLink = this.activityService.getGoogleUrl(
+      this.modalService.date,
+      this.authService.authObject
     );
 
     this.stayService.saveStay();

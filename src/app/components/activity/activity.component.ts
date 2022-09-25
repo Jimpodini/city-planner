@@ -1,5 +1,6 @@
 import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth.service';
+import { ActivityService } from 'src/app/services/activity.service';
 import { StayService } from 'src/app/services/stay.service';
 import { ModalService } from '../modal/modal.service';
 
@@ -21,7 +22,8 @@ export class ActivityComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private authService: AuthService,
-    private stayService: StayService
+    private stayService: StayService,
+    private activityService: ActivityService
   ) {}
 
   ngOnInit(): void {}
@@ -35,7 +37,10 @@ export class ActivityComponent implements OnInit {
       );
     this.authService.authObject.activitiesPerDate[
       this.date
-    ].googleDirectionLink = this.authService.getGoogleUrl(this.date);
+    ].googleDirectionLink = this.activityService.getGoogleUrl(
+      this.date,
+      this.authService.authObject
+    );
 
     this.stayService.saveStay();
   }
