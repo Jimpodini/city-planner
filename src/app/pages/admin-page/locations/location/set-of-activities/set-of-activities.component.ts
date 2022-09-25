@@ -34,6 +34,21 @@ import { ActivityService } from 'src/app/services/activity.service';
             <th mat-header-cell *matHeaderCellDef class="bg-orange-500"></th>
             <td mat-cell *matCellDef="let activity" class="text-right">
               <button
+                class="mr-4"
+                matTooltip="Get directions"
+                matTooltipPosition="left"
+              >
+                <i class="fa-solid fa-map-location-dot"></i>
+              </button>
+              <button
+                (click)="openDialog(activity); $event.stopPropagation()"
+                matTooltip="Edit set of activities"
+                matTooltipPosition="below"
+                class="mr-4"
+              >
+                <i class="fa-solid fa-pen"></i>
+              </button>
+              <button
                 (appConfirm)="
                   activityService.deleteSetOfActivities(
                     activity.locationId,
@@ -177,6 +192,8 @@ export class SetOfActivitiesComponent implements OnInit {
         ))
     );
   }
+
+  openDialog(t: any) {}
 
   getActivityName(activityId: string): string {
     return this.activityService.activities.find(
