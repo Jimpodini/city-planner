@@ -60,7 +60,7 @@ import { StayService } from 'src/app/services/stay.service';
               <button
                 (click)="openDialog(stay); $event.stopPropagation()"
                 matTooltip="Edit stay"
-                matTooltipPosition="left"
+                matTooltipPosition="below"
                 class="mr-4"
               >
                 <i class="fa-solid fa-pen"></i>
