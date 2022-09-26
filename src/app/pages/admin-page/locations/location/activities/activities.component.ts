@@ -234,7 +234,7 @@ export class ActivitiesComponent implements OnInit {
   openActivitySetDialog() {
     this.dialog.open(SetOfActivitiesDialogComponent, {
       data: {
-        setOfActivities: this.selection.selected,
+        activities: this.selection.selected,
         locationId: this.locationId,
       },
     });

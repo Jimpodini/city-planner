@@ -4,7 +4,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivityService } from 'src/app/services/activity.service';
 
 @Component({
-  template: `<span mat-dialog-title>Create set of activities</span>
+  template: `<span mat-dialog-title
+      >{{ data.setOfActivities ? 'Edit' : 'Create' }} set of activities</span
+    >
     <div class="dialog-content" mat-dialog-content>
       <form [formGroup]="createActivitySetForm">
         <mat-form-field appearance="fill" class="mb-2">
@@ -50,24 +52,32 @@ export class SetOfActivitiesDialogComponent {
 
   ngOnInit() {
     console.log(this.data.setOfActivities);
+    this.createActivitySetForm.patchValue(this.data.setOfActivities);
   }
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
-    @Inject(MAT_DIALOG_DATA) private data: any,
+    @Inject(MAT_DIALOG_DATA) public data: any,
     private activityService: ActivityService
   ) {}
 
   submitForm() {
-    console.log('submitted!');
-    this.activityService
-      .createSetOfActivities(this.data.locationId, {
+    if (this.data.setOfActivities) {
+      console.log(this.data.setOfActivities.activities);
+      this.activityService.editSetOfActivities(this.data.locationId, {
+        id: this.data.setOfActivities.id,
         name: this.createActivitySetForm.controls.name.value,
         description: this.createActivitySetForm.controls.description.value,
-        activities: this.data.setOfActivities.map(
-          (activity: any) => activity.id
-        ),
-      })
-      .then(() => this.activityService.reloadActivitiesData.next());
+        activities: this.data.setOfActivities.activities,
+      });
+    } else {
+      this.activityService
+        .createSetOfActivities(this.data.locationId, {
+          name: this.createActivitySetForm.controls.name.value,
+          description: this.createActivitySetForm.controls.description.value,
+          activities: this.data.activities.map((activity: any) => activity.id),
+        })
+        .then(() => this.activityService.reloadActivitiesData.next());
+    }
   }
 }
