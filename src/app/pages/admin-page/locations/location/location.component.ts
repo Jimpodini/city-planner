@@ -1,13 +1,22 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { ActivityService } from 'src/app/services/activity.service';
+import { LocationService } from 'src/app/services/location.service';
 
 @Component({
   selector: 'app-location',
   templateUrl: './location.component.html',
   styleUrls: ['./location.component.scss'],
 })
-export class LocationComponent {}
+export class LocationComponent {
+  locationId!: string;
+
+  constructor(
+    private route: ActivatedRoute,
+    private locationService: LocationService
+  ) {}
+
+  ngOnInit() {
+    this.locationId = this.route.snapshot.params['locationId'];
+    this.locationService.getLocation(this.locationId);
+  }
+}
