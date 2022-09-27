@@ -36,20 +36,20 @@ export class FeatureAreaComponent implements OnInit {
     let authObject = doc.data();
     console.log(doc.data());
     const locationId = doc.data()?.['locationId'];
-    const locationData1 = await this.locationService.getLocation(locationId);
-    const locationData2: any = locationData1.data();
-    authObject = {
-      ...authObject,
-      homeAddress: locationData2.address,
-      homeCity: locationData2.city,
-    };
-    // console.log(doc2.data());
-    this.activityService.getActivities(locationId).subscribe();
-    if (!doc.data()) {
-      this.router.navigate(['/404']);
-    } else {
-      this.authService.setAuthObject(<AuthObject>authObject);
-    }
+    this.locationService.getLocation(locationId).subscribe((data) => {
+      authObject = {
+        ...authObject,
+        homeAddress: data?.['address'],
+        homeCity: data?.['city'],
+      };
+      // console.log(doc2.data());
+      this.activityService.getActivities(locationId).subscribe();
+      if (!doc.data()) {
+        this.router.navigate(['/404']);
+      } else {
+        this.authService.setAuthObject(<AuthObject>authObject);
+      }
+    });
   }
 
   drop(event: CdkDragDrop<string[]>, date: string) {
