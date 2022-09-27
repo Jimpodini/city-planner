@@ -13,13 +13,14 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { setDoc, doc } from '@firebase/firestore';
-import { from, map, Observable } from 'rxjs';
+import { from, map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocationService {
   db: CollectionReference<DocumentData>;
+  location!: Location;
 
   constructor(private firestore: Firestore, private auth: Auth) {
     this.db = collection(this.firestore, 'locations');
@@ -27,7 +28,10 @@ export class LocationService {
 
   getLocation(locationId: string) {
     const docRef = doc(this.db, locationId);
-    return getDoc(docRef);
+    return from(getDoc(docRef)).pipe(
+      map((querySnapshot) => <Location>querySnapshot.data()),
+      tap((location) => (this.location = location))
+    );
   }
 
   getLocations(): Observable<Location[]> {
