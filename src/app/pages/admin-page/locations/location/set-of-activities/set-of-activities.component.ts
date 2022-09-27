@@ -8,9 +8,12 @@ import {
 import { SelectionModel } from '@angular/cdk/collections';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { ActivityService } from 'src/app/services/activity.service';
+import { LocationService } from 'src/app/services/location.service';
+import { SetOfActivitiesDialogComponent } from './set-of-activities-dialog/set-of-activities-dialog.component';
 @Component({
   selector: 'app-set-of-activities',
   template: `
@@ -34,6 +37,9 @@ import { ActivityService } from 'src/app/services/activity.service';
             <th mat-header-cell *matHeaderCellDef class="bg-orange-500"></th>
             <td mat-cell *matCellDef="let activity" class="text-right">
               <button
+                (click)="
+                  navigateToGoogleUrl(activity); $event.stopPropagation()
+                "
                 class="mr-4"
                 matTooltip="Get directions"
                 matTooltipPosition="left"
@@ -178,7 +184,9 @@ export class SetOfActivitiesComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public activityService: ActivityService
+    public activityService: ActivityService,
+    private dialog: MatDialog,
+    private locationService: LocationService
   ) {}
 
   ngOnInit(): void {
@@ -193,7 +201,24 @@ export class SetOfActivitiesComponent implements OnInit {
     );
   }
 
-  openDialog(t: any) {}
+  openDialog(setOfActivities: any) {
+    const dialogRef = this.dialog.open(SetOfActivitiesDialogComponent, {
+      data: {
+        setOfActivities,
+        locationId: this.locationId,
+      },
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy))
+      .subscribe((result) => {
+        if (result === 'submitted') {
+          this.dataSource = this.activityService.getSetOfActivities(
+            this.locationId
+          );
+        }
+      });
+  }
 
   getActivityName(activityId: string): string {
     return this.activityService.activities.find(
@@ -208,5 +233,26 @@ export class SetOfActivitiesComponent implements OnInit {
       event.currentIndex
     );
     this.activityService.editSetOfActivities(this.locationId, setOfActivities);
+  }
+
+  navigateToGoogleUrl(setOfActivities: any) {
+    const activities = setOfActivities.activities.map((activityId: number) =>
+      this.activityService.activities.find(
+        (activity) => activity.id === activityId
+      )
+    );
+    window.open(
+      this.activityService.getGoogleUrl(
+        activities,
+        this.locationService.location.city,
+        this.locationService.location.address
+      ),
+      '_blank'
+    );
+  }
+
+  ngOnDestroy() {
+    this.destroy.next();
+    this.destroy.complete();
   }
 }
