@@ -10,8 +10,16 @@ import {
   updateDoc,
 } from '@angular/fire/firestore';
 import { from, map, Subject, tap } from 'rxjs';
-import { AuthObject } from '../auth.service';
 
+export type Activity = {
+  id: string;
+  name: string;
+  category: string;
+  googlePlaceId: string;
+  image: string;
+  thumbnail: string;
+  locationId: string;
+};
 @Injectable({
   providedIn: 'root',
 })
