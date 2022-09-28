@@ -220,7 +220,7 @@ export class SetOfActivitiesComponent implements OnInit {
       });
   }
 
-  getActivityName(activityId: string): string {
+  getActivityName(activityId: string): string | undefined {
     return this.activityService.activities.find(
       (activity) => activity.id === activityId
     )?.name;
@@ -236,7 +236,7 @@ export class SetOfActivitiesComponent implements OnInit {
   }
 
   navigateToGoogleUrl(setOfActivities: any) {
-    const activities = setOfActivities.activities.map((activityId: number) =>
+    const activities = setOfActivities.activities.map((activityId: string) =>
       this.activityService.activities.find(
         (activity) => activity.id === activityId
       )

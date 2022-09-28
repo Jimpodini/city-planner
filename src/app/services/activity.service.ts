@@ -25,16 +25,16 @@ export type Activity = {
 })
 export class ActivityService {
   reloadActivitiesData = new Subject<void>();
-  activities: any[] = [];
+  activities: Activity[] = [];
 
   constructor(private firestore: Firestore) {}
 
   getActivities(locationId: string) {
     return from(getDocs(query(this.getDb(locationId, 'activities')))).pipe(
-      map((querySnapshot) =>
-        querySnapshot.docs.map((doc) => {
-          return { id: doc.id, ...doc.data() };
-        })
+      map(
+        (querySnapshot) => <Activity[]>querySnapshot.docs.map((doc) => {
+            return { id: doc.id, ...doc.data() };
+          })
       ),
       tap((activities) => (this.activities = activities))
     );
