@@ -7,6 +7,7 @@ import {
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { StayService } from 'src/app/services/stay.service';
 
 @Component({
@@ -50,12 +51,14 @@ import { StayService } from 'src/app/services/stay.service';
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600"></th>
             <td mat-cell *matCellDef="let stay" class="text-right">
               <button
-                (click)="openDialog(stay); $event.stopPropagation()"
-                matTooltip="Share stay"
+                (click)="$event.stopPropagation()"
+                [cdkCopyToClipboard]="getStayUrl(stay)"
+                (cdkCopyToClipboardCopied)="stayUrlCopied()"
+                matTooltip="Copy link"
                 matTooltipPosition="left"
                 class="mr-4"
               >
-                <i class="fa-solid fa-share-nodes"></i>
+                <i class="fa-solid fa-copy"></i>
               </button>
               <button
                 (click)="openDialog(stay); $event.stopPropagation()"
@@ -116,7 +119,8 @@ export class StaysComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    public stayService: StayService
+    public stayService: StayService,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -144,6 +148,16 @@ export class StaysComponent implements OnInit, OnDestroy {
 
   navigateToStay(stayId: string) {
     window.open(stayId, '_blank')?.focus();
+  }
+
+  getStayUrl(stay: any) {
+    // TODO type stay
+    return `${window.location.origin}/${stay.id}`;
+  }
+
+  stayUrlCopied() {
+    // TODO fix look of success snackbar
+    this.snackbarService.openSnackbar('success', 'Link to stay is copied');
   }
 
   ngOnDestroy(): void {

@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { ImageCropperModule } from 'ngx-image-cropper';
 
@@ -72,6 +73,7 @@ import { SetOfActivitiesDialogComponent } from './locations/location/set-of-acti
     MatTooltipModule,
     MatCheckboxModule,
     DragDropModule,
+    ClipboardModule,
     ImageCropperModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'sv-SE' }],
