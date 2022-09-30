@@ -211,6 +211,9 @@ export class ActivitiesComponent implements OnInit {
   ngOnInit(): void {
     this.locationId = this.route.snapshot.params['locationId'];
     this.dataSource = this.activityService.getActivities(this.locationId);
+    this.activityService.reloadActivitiesData.subscribe(
+      () => (this.selection = new SelectionModel<any>(true, []))
+    );
     this.activityService.getActivities(this.locationId).subscribe(console.log);
   }
 
