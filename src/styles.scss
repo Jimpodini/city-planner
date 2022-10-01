@@ -93,7 +93,7 @@ table.mat-table {
 
   &.expandable-table {
     tr {
-      &:nth-child(5n + 5),
+      &:nth-child(4n + 1),
       &:nth-child(1) {
         background-color: rgba(0, 0, 0, 0.03);
       }
