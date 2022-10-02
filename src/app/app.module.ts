@@ -24,6 +24,7 @@ import { environment } from 'src/environments/environment';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { SharedModule } from './shared/shared.module';
+import { SnackbarContentComponent } from './services/snackbar.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { SharedModule } from './shared/shared.module';
     PageNotFoundComponent,
     ActivityButtonComponent,
     CategoryIconComponent,
+    SnackbarContentComponent,
   ],
   imports: [
     BrowserModule,
