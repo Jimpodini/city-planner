@@ -157,7 +157,11 @@ export class StaysComponent implements OnInit, OnDestroy {
 
   stayUrlCopied() {
     // TODO fix look of success snackbar
-    this.snackbarService.openSnackbar('success', 'Link to stay is copied');
+    this.snackbarService.openSnackbar(
+      'success',
+      'Link to stay is copied',
+      2000
+    );
   }
 
   ngOnDestroy(): void {
