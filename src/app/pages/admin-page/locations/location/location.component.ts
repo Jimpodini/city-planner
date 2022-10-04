@@ -17,6 +17,6 @@ export class LocationComponent {
 
   ngOnInit() {
     this.locationId = this.route.snapshot.params['locationId'];
-    this.locationService.getLocation(this.locationId);
+    this.locationService.getLocation(this.locationId).subscribe();
   }
 }
