@@ -20,13 +20,15 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class ConfirmDirective implements OnDestroy {
   @Input() entity = 'entity';
+  @Input() stopPropagation = true;
 
   @Output() appConfirm = new EventEmitter<void>();
 
   destroy = new Subject<void>();
 
   @HostListener('click', ['$event']) onClick(event: PointerEvent) {
-    event.stopPropagation();
+    if (this.stopPropagation) event.stopPropagation();
+
     const dialogRef = this.modal.open(ConfirmComponent, {
       data: {
         entity: this.entity,
