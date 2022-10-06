@@ -18,11 +18,35 @@
       <mat-menu #menu="matMenu">
         <a
           mat-menu-item
+          [disabled]="
+            authService.authObject.activitiesPerDate[date].activities.length ===
+            0
+          "
           [href]="
             authService.authObject.activitiesPerDate[date].googleDirectionLink
           "
           target="_blank"
-          ><i class="fa-solid fa-map-location-dot"></i> Directions</a
+          ><i class="fa-solid fa-map-location-dot mr-1"></i> Directions</a
+        >
+        <a
+          mat-menu-item
+          [href]="
+            authService.authObject.activitiesPerDate[date].googleDirectionLink
+          "
+          target="_blank"
+          ><i class="fa-solid fa-tree-city mr-1"></i> Sets of activities</a
+        >
+        <a
+          entity="all activities for this date"
+          mat-menu-item
+          [disabled]="
+            authService.authObject.activitiesPerDate[date].activities.length ===
+            0
+          "
+          (appConfirm)="removeAllActivities(date)"
+          [stopPropagation]="false"
+          target="_blank"
+          ><i class="fa-solid fa-trash-can mr-1"></i> Remove all activities</a
         >
       </mat-menu>
     </button>

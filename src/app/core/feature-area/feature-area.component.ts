@@ -61,4 +61,9 @@ export class FeatureAreaComponent implements OnInit {
     );
     this.stayService.saveStay();
   }
+
+  removeAllActivities(date: string) {
+    this.authService.authObject.activitiesPerDate[date].activities = [];
+    this.stayService.saveStay();
+  }
 }
