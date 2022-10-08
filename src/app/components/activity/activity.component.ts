@@ -35,13 +35,7 @@ export class ActivityComponent implements OnInit {
       ].activities.filter(
         (activity) => activity.googlePlaceId !== this.activity.googlePlaceId
       );
-    this.authService.authObject.activitiesPerDate[
-      this.date
-    ].googleDirectionLink = this.activityService.getGoogleUrl(
-      this.authService.authObject.activitiesPerDate[this.date].activities,
-      this.authService.authObject.homeCity,
-      this.authService.authObject.homeAddress
-    );
+    this.stayService.updateGoogleDirectionLink(this.date);
 
     this.stayService.saveStay();
   }

@@ -16,6 +16,7 @@ import {
 } from '@angular/fire/firestore';
 import { from, map } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { ActivityService } from './activity.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,11 @@ import { AuthService } from '../auth.service';
 export class StayService {
   db: CollectionReference<DocumentData>;
 
-  constructor(private firestore: Firestore, private authService: AuthService) {
+  constructor(
+    private firestore: Firestore,
+    private authService: AuthService,
+    private activityService: ActivityService
+  ) {
     this.db = collection(this.firestore, 'stays');
   }
 
@@ -74,6 +79,15 @@ export class StayService {
 
   deleteStay(stayId: string) {
     return deleteDoc(doc(this.db, stayId));
+  }
+
+  updateGoogleDirectionLink(date: string) {
+    this.authService.authObject.activitiesPerDate[date].googleDirectionLink =
+      this.activityService.getGoogleUrl(
+        this.authService.authObject.activitiesPerDate[date].activities,
+        this.authService.authObject.homeCity,
+        this.authService.authObject.homeAddress
+      );
   }
 
   // TODO: choose better name

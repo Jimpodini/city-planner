@@ -64,6 +64,7 @@ export class FeatureAreaComponent implements OnInit {
 
   removeAllActivities(date: string) {
     this.authService.authObject.activitiesPerDate[date].activities = [];
+    this.stayService.updateGoogleDirectionLink(date);
     this.stayService.saveStay();
   }
 }
