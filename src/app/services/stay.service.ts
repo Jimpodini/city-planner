@@ -16,7 +16,17 @@ import {
 } from '@angular/fire/firestore';
 import { from, map } from 'rxjs';
 import { AuthService } from '../auth.service';
-import { ActivityService } from './activity.service';
+import { Activity, ActivityService } from './activity.service';
+
+export type Stay = {
+  checkInDate: string;
+  checkOutDate: string;
+  guestName: string;
+  locationId: string;
+  activitiesPerDate: {
+    [key: string]: { activities: Activity[]; googleDirectionLink: string };
+  };
+};
 
 @Injectable({
   providedIn: 'root',
