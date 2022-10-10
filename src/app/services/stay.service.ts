@@ -19,6 +19,7 @@ import { AuthService } from '../auth.service';
 import { Activity, ActivityService } from './activity.service';
 
 export type Stay = {
+  id: string;
   checkInDate: string;
   checkOutDate: string;
   guestName: string;
@@ -53,7 +54,7 @@ export class StayService {
     });
   }
 
-  createStay(locationId: string, stay: any) {
+  createStay(locationId: string, stay: Stay) {
     return addDoc(this.db, {
       ...stay,
       locationId,
@@ -76,12 +77,12 @@ export class StayService {
               id: doc.id,
               ...doc.data(),
             };
-          }) as any[]
+          }) as Stay[]
       )
     );
   }
 
-  editStay(stay: any) {
+  editStay(stay: Stay) {
     return updateDoc(doc(this.db, stay.id), {
       guestName: stay.guestName,
     });
