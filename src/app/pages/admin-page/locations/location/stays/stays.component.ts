@@ -8,7 +8,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { StayService } from 'src/app/services/stay.service';
+import { Stay, StayService } from 'src/app/services/stay.service';
 
 @Component({
   selector: 'app-stays',
@@ -273,14 +273,14 @@ export class CreateStayDialog {
 
   submitForm() {
     if (this.data.stay) {
-      this.stayService.editStay({
+      this.stayService.editStay(<Stay>{
         id: this.data.stay.id,
         ...this.createStayForm.value,
       });
     } else {
       this.stayService.createStay(
         this.data.locationId,
-        this.createStayForm.value
+        <Stay>this.createStayForm.value
       );
     }
   }
