@@ -26,6 +26,7 @@ export type Activity = {
 export class ActivityService {
   reloadActivitiesData = new Subject<void>();
   activities: Activity[] = [];
+  setsOfActivities: any[] = []; // TODO: type set of activity
 
   constructor(private firestore: Firestore) {}
 
@@ -68,7 +69,8 @@ export class ActivityService {
         querySnapshot.docs.map((doc) => {
           return { id: doc.id, ...doc.data() };
         })
-      )
+      ),
+      tap((setsOfActivities) => (this.setsOfActivities = setsOfActivities))
     );
   }
 
