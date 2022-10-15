@@ -12,10 +12,10 @@ import { ModalService } from './modal.service';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
-  @Input() date: string | undefined;
-
   activities = this.activityService.activities;
   filteredActivities = this.activities;
+  setsOfActivities = this.activityService.setsOfActivities;
+  filteredSetsOfActivities = this.setsOfActivities;
   selectedActivity: any = null;
   categories = ['Parks', 'Restaurants', 'Bars'];
   activatedCategoryFilter: string = '';
@@ -53,6 +53,12 @@ export class ModalComponent implements OnInit {
     this.stayService.saveStay();
   }
 
+  addActivities(setOfActivities: any) {
+    setOfActivities.activities.forEach((activityId: any) => {
+      this.addActivity(this.getActivity(activityId));
+    });
+  }
+
   activateCategoryFilter(category: string): void {
     this.activatedCategoryFilter = category;
     this.updateFilteredActivities();
@@ -72,6 +78,10 @@ export class ModalComponent implements OnInit {
           .map((a) => a.googlePlaceId)
           .includes(activity.googlePlaceId) === false
     );
+  }
+
+  getActivity(activityId: string) {
+    return this.activities.find((activity) => activity.id === activityId);
   }
 
   ngOnDestroy(): void {

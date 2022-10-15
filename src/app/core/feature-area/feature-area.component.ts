@@ -43,7 +43,11 @@ export class FeatureAreaComponent implements OnInit {
         homeCity: data?.['city'],
       };
       // console.log(doc2.data());
-      this.activityService.getActivities(locationId).subscribe();
+      // TODO unsubscribe
+      this.activityService.getActivities(locationId).subscribe(console.log);
+      this.activityService
+        .getSetOfActivities(locationId)
+        .subscribe(console.log);
       if (!doc.data()) {
         this.router.navigate(['/404']);
       } else {

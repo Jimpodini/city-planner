@@ -11,7 +11,7 @@ export class ModalService {
 
   constructor() {}
 
-  openModal(date: string, modalType: ModalType = 'setsOfActivities') {
+  openModal(date: string, modalType: ModalType = 'activities') {
     this.showModal = true;
     this.date = date;
     this.modalType = modalType;

@@ -30,9 +30,7 @@
         >
         <a
           mat-menu-item
-          [href]="
-            authService.authObject.activitiesPerDate[date].googleDirectionLink
-          "
+          (click)="modalService.openModal(date, 'setsOfActivities')"
           target="_blank"
           ><i class="fa-solid fa-tree-city mr-1"></i> Sets of activities</a
         >
