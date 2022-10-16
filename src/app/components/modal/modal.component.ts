@@ -34,7 +34,13 @@ export class ModalComponent implements OnInit {
     this.updateFilteredActivities();
     this.searchInput.valueChanges
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => this.updateFilteredActivities());
+      .subscribe(() => {
+        if (this.modalService.modalType === 'activities') {
+          this.updateFilteredActivities();
+        } else if (this.modalService.modalType === 'setsOfActivities') {
+          this.updateFilteredSetsOfActivities();
+        }
+      });
   }
 
   addActivity(activity: any) {
@@ -71,12 +77,27 @@ export class ModalComponent implements OnInit {
         (activity.category === this.activatedCategoryFilter ||
           !this.activatedCategoryFilter) &&
         (!this.searchInput.value ||
-          activity.name.includes(this.searchInput.value)) &&
+          activity.name
+            .toLowerCase()
+            .includes(this.searchInput.value.toLowerCase())) &&
         this.authService.authObject.activitiesPerDate[
           this.modalService.date
         ].activities
           .map((a) => a.googlePlaceId)
           .includes(activity.googlePlaceId) === false
+    );
+  }
+
+  updateFilteredSetsOfActivities(): void {
+    this.filteredSetsOfActivities = this.setsOfActivities.filter(
+      (activity) =>
+        !this.searchInput.value ||
+        activity.name
+          .toLowerCase()
+          .includes(this.searchInput.value.toLowerCase()) ||
+        activity.description
+          .toLowerCase()
+          .includes(this.searchInput.value.toLowerCase())
     );
   }
 
