@@ -105,11 +105,6 @@ input:focus:not(:focus-visible) {
     cursor: pointer;
     margin: 1px;
     display: inline-block;
-
-    &:hover {
-      background-color: rgb(87 89 95 / 1);
-      color: white;
-    }
   }
 }
 
