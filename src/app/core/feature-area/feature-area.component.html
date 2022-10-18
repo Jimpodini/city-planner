@@ -1,4 +1,5 @@
-<div class="p-4">
+<div class="background"></div>
+<div *ngIf="authService.authObject; else loader" class="p-4">
   <h1>
     Welcome to {{ authService.authObject?.homeCity }}
     {{ authService.authObject?.guestName }}
@@ -77,4 +78,9 @@
     </div>
   </div>
 </div>
+<ng-template #loader>
+  <div class="flex justify-center pt-4">
+    <mat-spinner class="stay-spinner"></mat-spinner>
+  </div>
+</ng-template>
 <app-modal *ngIf="modalService.showModal"></app-modal>
