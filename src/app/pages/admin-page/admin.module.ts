@@ -12,6 +12,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
@@ -72,6 +74,7 @@ import { SetOfActivitiesDialogComponent } from './locations/location/set-of-acti
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatCheckboxModule,
+    MatAutocompleteModule,
     DragDropModule,
     ClipboardModule,
     ImageCropperModule,
