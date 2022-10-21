@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { FeatureAreaComponent } from './core/feature-area/feature-area.component';
+import { StartPageComponent } from './pages/admin-page/start-page/start-page/start-page.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: '404',
     component: PageNotFoundComponent,
+  },
+  {
+    path: '',
+    component: StartPageComponent,
   },
   {
     path: ':stayId',
