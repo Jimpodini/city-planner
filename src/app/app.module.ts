@@ -27,6 +27,7 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { SharedModule } from './shared/shared.module';
 import { SnackbarContentComponent } from './services/snackbar.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { StartPageComponent } from './pages/admin-page/start-page/start-page/start-page.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ActivityButtonComponent,
     CategoryIconComponent,
     SnackbarContentComponent,
+    StartPageComponent,
   ],
   imports: [
     BrowserModule,
