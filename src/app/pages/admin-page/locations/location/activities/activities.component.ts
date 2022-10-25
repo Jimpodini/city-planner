@@ -7,12 +7,19 @@ import {
 } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  NonNullableFormBuilder,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { ActivityService } from 'src/app/services/activity.service';
+import { GoogleService } from 'src/app/services/google.service';
 import { SetOfActivitiesDialogComponent } from '../set-of-activities/set-of-activities-dialog/set-of-activities-dialog.component';
 @Component({
   selector: 'app-activities',
@@ -223,6 +230,7 @@ export class ActivitiesComponent implements OnInit {
         activity,
         locationId: this.locationId,
       },
+      width: '500px',
     });
     dialogRef
       .afterClosed()
@@ -295,14 +303,31 @@ export class ImagePreview {
         </mat-form-field>
         <mat-form-field appearance="fill" class="mb-2">
           <mat-label>Google place ID</mat-label>
-          <input matInput formControlName="googlePlaceId" />
+          <input
+            matInput
+            formControlName="googlePlaceId"
+            [matAutocomplete]="auto"
+          />
           <mat-error
             *ngIf="
-              createActivityForm.controls.googlePlaceId.hasError('required')
+              createActivityForm.controls.googlePlaceId.hasError(
+                'unknownGooglePlaceIdError'
+              )
             "
           >
-            Google place ID is <strong>required</strong>
+            A valid Google place ID is <strong>required</strong>
           </mat-error>
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option
+              *ngFor="let option of filteredOptions | async"
+              [value]="option.place_id"
+            >
+              {{ option.structured_formatting?.main_text }}
+              <span class="text-xs">{{
+                option.structured_formatting?.secondary_text
+              }}</span>
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
         <mat-form-field appearance="fill" class="mb-2">
           <mat-label>Description</mat-label>
@@ -379,10 +404,13 @@ export class ImagePreview {
   ],
 })
 export class CreateActivityDialog {
+  filteredOptions!: Observable<any[]>;
+  filteredGooglePlaceIds: string[] = [];
+
   createActivityForm = this.formBuilder.group({
     name: ['', Validators.required],
     category: ['', Validators.required],
-    googlePlaceId: ['', Validators.required],
+    googlePlaceId: ['', this.googlePlaceIdValidator()],
     description: ['', Validators.required],
     image: ['', Validators.required],
     thumbnail: ['', Validators.required],
@@ -392,11 +420,30 @@ export class CreateActivityDialog {
     private formBuilder: NonNullableFormBuilder,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private googleService: GoogleService
   ) {}
+
+  googlePlaceIdValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      return !this.filteredGooglePlaceIds.includes(control.value)
+        ? { unknownGooglePlaceIdError: { value: control.value } }
+        : null;
+    };
+  }
 
   ngOnInit() {
     this.createActivityForm.patchValue(this.data.activity);
+
+    this.filteredOptions =
+      this.createActivityForm.controls.googlePlaceId.valueChanges.pipe(
+        switchMap((value) => {
+          return this.googleService.getGooglePlaces(value);
+        }),
+        tap((val) => {
+          this.filteredGooglePlaceIds = val.map((place) => place.place_id);
+        })
+      );
   }
 
   openDialog(imageChangedEvent: any, thumbnail = false) {
