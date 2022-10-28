@@ -1,7 +1,10 @@
 <div class="flex justify-center items-center h-full">
-  <div class="bg-white p-10 rounded-md shadow-md mx-3">
-    <!-- TODO: refactor text into seperate component -->
-    <form [formGroup]="loginForm" (ngSubmit)="submitForm()">
+  <div class="bg-white p-10 rounded-md shadow-md mx-3 w-96">
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="submitForm()"
+      *ngIf="!resetPasswordMode; else resetPasswordTemplate"
+    >
       <input
         formControlName="email"
         type="email"
@@ -15,7 +18,11 @@
         class="w-full border rounded-md p-3 mb-3"
       />
       <div class="text-right mb-3 text-gray-600 italic">
-        <a href="#">Forgot password?</a>
+        <a
+          class="cursor-pointer"
+          (click)="resetPasswordMode = !resetPasswordMode"
+          >Reset password</a
+        >
       </div>
       <button
         type="submit"
@@ -24,13 +31,31 @@
       >
         Login
       </button>
-      <button
-        type="submit"
-        class="w-full rounded-md text-white uppercase tracking-widest shadow-lg shadow-red-800/50 p-3 bg-red-800 mb-7 disabled:bg-red-800/80 disabled:cursor-not-allowed"
-      >
-        Login using Google
-      </button>
     </form>
+    <ng-template #resetPasswordTemplate>
+      <form [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()">
+        <input
+          formControlName="email"
+          type="email"
+          placeholder="Email"
+          class="w-full border rounded-md p-3 mb-3"
+        />
+        <div class="text-right mb-3 text-gray-600 italic">
+          <a
+            class="cursor-pointer"
+            (click)="resetPasswordMode = !resetPasswordMode"
+            >Login</a
+          >
+        </div>
+        <button
+          type="submit"
+          [disabled]="!resetPasswordForm.valid"
+          class="w-full rounded-md text-white uppercase tracking-widest shadow-lg shadow-indigo-800/50 p-3 bg-indigo-800 mb-4 disabled:bg-indigo-800/80 disabled:cursor-not-allowed"
+        >
+          Reset password
+        </button>
+      </form>
+    </ng-template>
     <div class="text-center text-gray-600">
       Don't have an account?
       <a routerLink="/admin/register" class="text-indigo-800 underline"
