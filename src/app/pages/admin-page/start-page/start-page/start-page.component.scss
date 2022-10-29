@@ -5,3 +5,12 @@
 .top-content {
   background-color: #da4453;
 }
+
+.step-container {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.scrolled-into-viewport {
+  opacity: 1;
+}
