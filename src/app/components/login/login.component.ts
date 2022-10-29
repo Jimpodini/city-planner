@@ -39,9 +39,11 @@ export class LoginComponent implements OnInit {
       this.auth,
       this.loginForm.controls.email.value,
       this.loginForm.controls.password.value
-    ).then(() => {
-      this.router.navigate(['/admin']);
-    });
+    )
+      .then(() => {
+        this.router.navigate(['/admin']);
+      })
+      .catch(() => this.snackbarService.openSnackbar('error', 'Login failed'));
   }
 
   resetPassword() {
