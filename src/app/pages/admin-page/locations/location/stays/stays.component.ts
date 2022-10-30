@@ -24,7 +24,11 @@ import { Stay, StayService } from 'src/app/services/stay.service';
         </button>
       </div>
       <ng-container *ngIf="dataSource | async as ds; else loader">
-        <table *ngIf="ds.length > 0" mat-table [dataSource]="dataSource">
+        <table
+          *ngIf="ds.length > 0; else noStaysCreatedYet"
+          mat-table
+          [dataSource]="dataSource"
+        >
           <ng-container matColumnDef="guestName">
             <th mat-header-cell *matHeaderCellDef class="bg-pink-600">
               Guest name
@@ -90,6 +94,12 @@ import { Stay, StayService } from 'src/app/services/stay.service';
             class="last:border-b-pink-600 last:border-b-2 cursor-pointer"
           ></tr>
         </table>
+        <ng-template #noStaysCreatedYet>
+          <app-empty-state-placeholder
+            entity="stay"
+            imageSrc="/assets/illustrations/undraw_best_place_re_lne9.svg"
+          ></app-empty-state-placeholder>
+        </ng-template>
       </ng-container>
       <ng-template #loader>
         <mat-spinner class="stays-spinner"></mat-spinner>
