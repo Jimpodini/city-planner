@@ -73,10 +73,7 @@ import { Stay, StayService } from 'src/app/services/stay.service';
                 <i class="fa-solid fa-pen"></i>
               </button>
               <button
-                (appConfirm)="
-                  stayService.deleteStay(stay.id);
-                  dataSource = stayService.getStays(locationId)
-                "
+                (appConfirm)="deleteStay(stay.id)"
                 entity="stay"
                 matTooltip="Delete stay"
                 matTooltipPosition="right"
@@ -166,12 +163,19 @@ export class StaysComponent implements OnInit, OnDestroy {
   }
 
   stayUrlCopied() {
-    // TODO fix look of success snackbar
     this.snackbarService.openSnackbar(
       'success',
       'Link to stay is copied',
       2000
     );
+  }
+
+  deleteStay(stayId: string) {
+    this.stayService
+      .deleteStay(stayId)
+      .then(
+        () => (this.dataSource = this.stayService.getStays(this.locationId))
+      );
   }
 
   ngOnDestroy(): void {
