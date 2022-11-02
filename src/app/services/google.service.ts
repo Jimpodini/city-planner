@@ -13,7 +13,7 @@ export class GoogleService {
 
     return this.http
       .get<any[]>(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${searchString}&key=AIzaSyCi1hHMvXk6BWG_JyJOyL6RAIs7BuuVgF8`
+        `https://us-central1-city-planner-d1807.cloudfunctions.net/googlePlaces?search=${searchString}`
       )
       .pipe(map((result: any) => result.predictions));
   }
