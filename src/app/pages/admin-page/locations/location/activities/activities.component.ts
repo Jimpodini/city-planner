@@ -29,6 +29,8 @@ import { SetOfActivitiesDialogComponent } from '../set-of-activities/set-of-acti
         <div *ngIf="!selection.isEmpty()" class="mr-2">
           <button
             (click)="openActivitySetDialog()"
+            matTooltip="Create set of activities"
+            matTooltipPosition="left"
             mat-raised-button
             class="bg-gradient-to-tr from-red-500 to-orange-500 text-white"
           >
@@ -45,7 +47,7 @@ import { SetOfActivitiesDialogComponent } from '../set-of-activities/set-of-acti
       </div>
       <ng-container *ngIf="dataSource | async as ds; else loader">
         <table
-          *ngIf="ds.length > 0"
+          *ngIf="ds.length > 0; else noActivitiesCreatedYet"
           mat-table
           multiTemplateDataRows
           [dataSource]="dataSource"
@@ -163,6 +165,12 @@ import { SetOfActivitiesDialogComponent } from '../set-of-activities/set-of-acti
             class="example-detail-row last:border-b-red-500 last:border-b-2"
           ></tr>
         </table>
+        <ng-template #noActivitiesCreatedYet>
+          <app-empty-state-placeholder
+            entity="activity"
+            imageSrc="/assets/illustrations/undraw_wine_tasting_re_4jjf.svg"
+          ></app-empty-state-placeholder>
+        </ng-template>
       </ng-container>
     </div>
     <ng-template #loader>
