@@ -8,58 +8,66 @@
       Create location
     </button>
   </div>
-  <table
-    *ngIf="dataSource | async; else loader"
-    mat-table
-    [dataSource]="dataSource"
-  >
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef class="bg-indigo-500">Id</th>
-      <td mat-cell *matCellDef="let location">{{ location.id }}</td>
-    </ng-container>
-    <ng-container matColumnDef="address">
-      <th mat-header-cell *matHeaderCellDef class="bg-indigo-500">Address</th>
-      <td mat-cell *matCellDef="let location">{{ location.address }}</td>
-    </ng-container>
+  <ng-container *ngIf="dataSource | async as ds; else loader">
+    <table
+      *ngIf="ds.length > 0; else noLocationsCreatedYet"
+      mat-table
+      [dataSource]="dataSource"
+    >
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef class="bg-indigo-500">Id</th>
+        <td mat-cell *matCellDef="let location">{{ location.id }}</td>
+      </ng-container>
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef class="bg-indigo-500">Address</th>
+        <td mat-cell *matCellDef="let location">{{ location.address }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="city">
-      <th mat-header-cell *matHeaderCellDef class="bg-indigo-500">City</th>
-      <td mat-cell *matCellDef="let location">{{ location.city }}</td>
-    </ng-container>
+      <ng-container matColumnDef="city">
+        <th mat-header-cell *matHeaderCellDef class="bg-indigo-500">City</th>
+        <td mat-cell *matCellDef="let location">{{ location.city }}</td>
+      </ng-container>
 
-    <ng-container matColumnDef="editOrDeleteLocation">
-      <th mat-header-cell *matHeaderCellDef class="bg-indigo-500"></th>
-      <td mat-cell *matCellDef="let location" class="text-right">
-        <button
-          (click)="openDialog(location); $event.stopPropagation()"
-          matTooltip="Edit location"
-          matTooltipPosition="left"
-          class="mr-4"
-        >
-          <i class="fa-solid fa-pen"></i>
-        </button>
-        <button
-          (appConfirm)="
-            locationService.deleteActivity(location.id);
-            dataSource = locationService.getLocations()
-          "
-          entity="location"
-          matTooltip="Delete location"
-          matTooltipPosition="right"
-        >
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </td>
-    </ng-container>
+      <ng-container matColumnDef="editOrDeleteLocation">
+        <th mat-header-cell *matHeaderCellDef class="bg-indigo-500"></th>
+        <td mat-cell *matCellDef="let location" class="text-right">
+          <button
+            (click)="openDialog(location); $event.stopPropagation()"
+            matTooltip="Edit location"
+            matTooltipPosition="left"
+            class="mr-4"
+          >
+            <i class="fa-solid fa-pen"></i>
+          </button>
+          <button
+            (appConfirm)="
+              locationService.deleteActivity(location.id);
+              dataSource = locationService.getLocations()
+            "
+            entity="location"
+            matTooltip="Delete location"
+            matTooltipPosition="right"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: displayedColumns"
-      [routerLink]="row.id"
-      class="cursor-pointer last:border-b-indigo-500 last:border-b-2"
-    ></tr>
-  </table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [routerLink]="row.id"
+        class="cursor-pointer last:border-b-indigo-500 last:border-b-2"
+      ></tr>
+    </table>
+    <ng-template #noLocationsCreatedYet>
+      <app-empty-state-placeholder
+        entity="location"
+        imageSrc="/assets/illustrations/undraw_my_location_re_r52x.svg"
+      ></app-empty-state-placeholder>
+    </ng-template>
+  </ng-container>
 </div>
 <ng-template #loader>
   <mat-spinner></mat-spinner>
