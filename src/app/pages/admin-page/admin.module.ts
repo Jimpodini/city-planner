@@ -41,6 +41,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SetOfActivitiesComponent } from './locations/location/set-of-activities/set-of-activities.component';
 import { SetOfActivitiesDialogComponent } from './locations/location/set-of-activities/set-of-activities-dialog/set-of-activities-dialog.component';
+import { EmptyStatePlaceholderComponent } from './shared/empty-state-placeholder/empty-state-placeholder.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { SetOfActivitiesDialogComponent } from './locations/location/set-of-acti
     CreateStayDialog,
     SetOfActivitiesComponent,
     SetOfActivitiesDialogComponent,
+    EmptyStatePlaceholderComponent,
   ],
   imports: [
     CommonModule,
